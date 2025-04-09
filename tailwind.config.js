@@ -18,6 +18,15 @@ export default {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            backgroundImage: {
+                theme: "linear-gradient(90deg, #3CACB6 0%, #8CCEAD 90%)",
+            },
+            borderColor: {
+                theme: "#1CBC9B",
+            },
+            textColor: {
+                theme: "#1CBC9B",
+            }
         },
     },
 

@@ -17,6 +17,6 @@
         <div class="tw-flex tw-justify-center tw-items-center">
             <img src="{{ asset('image/dashboard.png') }}" class="tw-w-4/12" alt="">
         </div>
-        <p class="tw-text-center">Welcome to {{ config('app.name') }}</p>
+        <p class="tw-text-center tw-text-gray-600">Welcome to {{ config('app.name') }}</p>
     </x-card>
 @endsection
