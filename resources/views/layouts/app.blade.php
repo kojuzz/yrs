@@ -14,10 +14,10 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
         <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
+    <body class="tw-font-sans tw-antialiased">
+        <div class="tw-min-h-screen tw-bg-gray-100">
             @include('layouts.navigation')
 
             <!-- Page Content -->
