@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ChangePasswordRequest;
+use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -23,7 +24,7 @@ class PasswordController extends Controller
             $request->user()->update([
                 'password' => Hash::make($request->password),
             ]);
-            return back()->with('status', 'password-updated');
+            return back()->with('success', 'Successfuly Changed.');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
         }

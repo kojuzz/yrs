@@ -14,6 +14,7 @@
 
 @section("content")
     <x-card>
+        <x-flash-message />
         <form method="post" action="{{ route("change-password.update") }}" id="submit-form">
             @csrf
             @method("put")

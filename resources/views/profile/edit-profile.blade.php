@@ -18,7 +18,7 @@
             @csrf
         </form>
     
-        <form method="post" action="{{ route('profile.update') }}" class="">
+        <form method="post" action="{{ route('profile.update') }}" class="" id="submit-form">
             @csrf
             @method('patch')
     
@@ -59,3 +59,7 @@
         </form>
     </x-card>
 @endsection
+
+@push('scripts')
+    {!! JsValidator::formRequest('App\Http\Requests\ProfileUpdateRequest', '#submit-form') !!}
+@endpush

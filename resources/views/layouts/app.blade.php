@@ -30,6 +30,9 @@
     <!-- Daterange picker -->
     <link rel="stylesheet" href="{{ asset("plugins/daterangepicker/daterangepicker.css") }}">
 
+    <!-- Toastr -->
+    <link rel="stylesheet" href="{{ asset("plugins/toastr/toastr.min.css") }}">
+
     <!-- Scripts -->
     @vite(["resources/sass/app.scss", "resources/js/app.js"])
 </head>
@@ -90,10 +93,22 @@
     <!-- AdminLTE App -->
     <script src="{{ asset("js/adminlte.js") }}"></script>
 
-<!-- Laravel Javascript Validation -->
-<script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
+    <!-- Laravel Javascript Validation -->
+    <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
 
+    <!-- Toastr -->
+    <script src="{{ asset("plugins/toastr/toastr.min.js") }}"></script>
 
+    <script>
+        $(document).ready(function() {
+            @if(session('success'))
+                toastr.success("{{ session('success') }}")
+            @endif
+            @if(session('error'))
+                toastr.error("{{ session('error') }}")
+            @endif
+        });
+    </script>
     @stack("scripts")
 </body>
 
