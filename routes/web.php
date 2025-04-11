@@ -33,8 +33,6 @@ Route::middleware('auth:admin_users')->group(function () {
 
     Route::get('change-password', [PasswordController::class, 'edit'])->name('change-password.edit');
     Route::put('change-password', [PasswordController::class, 'update'])->name('change-password.update');
-
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 Route::middleware(['auth:admin_users', 'verified'])->group(function () {
