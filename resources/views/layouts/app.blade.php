@@ -30,6 +30,9 @@
     <!-- Toastr -->
     <link rel="stylesheet" href="{{ asset("plugins/toastr/toastr.min.css") }}">
 
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{{ asset("plugins/datatables/datatables.min.css") }}">
+
     <!-- Scripts -->
     @vite(["resources/sass/app.scss", "resources/js/app.js"])
 </head>
@@ -95,6 +98,9 @@
 
     <!-- Toastr -->
     <script src="{{ asset("plugins/toastr/toastr.min.js") }}"></script>
+
+    <!-- DataTables -->
+    <script src="{{ asset("plugins/datatables/datatables.min.js") }}"></script>
 
     <script>
         $(document).ready(function() {
