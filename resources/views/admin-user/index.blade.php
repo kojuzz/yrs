@@ -17,11 +17,12 @@
         <table class="table table-bordered Datatable-tb">
             <thead>
                 <tr>
+                    <th class="text-center"></th>
                     <th class="text-center">Name</th>
                     <th class="text-center">Email</th>
                     <th class="text-center">Created at</th>
                     <th class="text-center">Updated at</th>
-                    <th class="text-center">Action</th>
+                    <th class="text-center no-sort no-search">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -43,21 +44,53 @@
                 },
                 columns: [
                     {
+                        data: 'responsive-icon',
+                        class: 'text-center'
+                    },
+                    {
                         data: 'name',
+                        class: 'text-center'
                     },
                     {
                         data: 'email',
+                        class: 'text-center'
                     },
                     {
                         data: 'created_at',
+                        class: 'text-center'
                     },
                     {
                         data: 'updated_at',
+                        class: 'text-center'
                     },
                     {
                         data: 'action',
                     }
                 ],
+                order: [
+                    [3, 'desc']
+                ],
+                columnDefs: [
+                    {
+                        targets: 'no-sort',
+                        orderable: false
+                    },
+                    {
+                        targets: 'no-search',
+                        searchable: false
+                    },
+                    {
+                        className: 'dtr-control arrow-left',
+                        orderable: false,
+                        target: 0
+                    }
+                ],
+                responsive: {
+                    details: {
+                        type: 'column',
+                        target: 0
+                    }
+                }
             });
         });
     </script>

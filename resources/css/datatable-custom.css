@@ -1,0 +1,28 @@
+table.dataTable.dtr-column>tbody>tr>td.dtr-control:before, 
+table.dataTable.dtr-column>tbody>tr>th.dtr-control:before, 
+table.dataTable.dtr-column>tbody>tr>td.control:before, 
+table.dataTable.dtr-column>tbody>tr>th.control:before {
+    content: "+";
+    display: inline-block;
+    box-sizing: border-box;
+    background: #1cbc9b;
+    border-radius: 100%;
+    width: 18px;
+    height: 18px;
+    line-height: 13px;
+    color: #fff;
+    border: 1px solid #ddd;
+}
+
+table.dataTable.dtr-column>tbody>tr.dtr-expanded td.dtr-control:before, table.dataTable.dtr-column>tbody>tr.dtr-expanded th.dtr-control:before, table.dataTable.dtr-column>tbody>tr.dtr-expanded td.control:before, table.dataTable.dtr-column>tbody>tr.dtr-expanded th.control:before {
+    content: "-";
+    display: inline-block;
+    box-sizing: border-box;
+    background: red;
+    border-radius: 100%;
+    width: 18px;
+    height: 18px;
+    line-height: 13px;
+    color: #fff;
+    border: 1px solid #ddd;
+}
