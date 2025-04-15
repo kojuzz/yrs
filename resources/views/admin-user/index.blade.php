@@ -1,6 +1,6 @@
 @extends("layouts.app")
 
-@section("title", "Dashboard")
+@section("title", "Admin User")
 
 @section("header")
     <div class="tw-flex tw-justify-between tw-items-center">
@@ -8,12 +8,16 @@
             <i class="fas fa-user tw-p-3 tw-bg-white tw-rounded-lg tw-shadow tw-mr-1"></i>
             <h5 class="tw-text-lg mb-0">Admin User</h5>
         </div>
-        <div></div>
+        <div>
+            <x-create-button href="{{ route('admin-user.create') }}">
+                <i class="fas fa-plus mr-1"></i>Create
+            </x-create-button>
+        </div>
     </div>
 @endsection
 
 @section("content")
-    <x-card>
+    <x-card class="pb-5">
         <table class="table table-bordered Datatable-tb">
             <thead>
                 <tr>
@@ -68,7 +72,7 @@
                     }
                 ],
                 order: [
-                    [3, 'desc']
+                    [4, 'desc']
                 ],
                 columnDefs: [
                     {

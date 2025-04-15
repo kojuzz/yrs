@@ -33,4 +33,7 @@ class AdminUserController extends Controller
                 ->toJson();
         }
     }
+    public function create() {
+        return view('admin-user.create');
+    }
 }

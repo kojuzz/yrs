@@ -1,3 +1,29 @@
+table.dataTable thead th {
+    font-size: 15px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    background: #f0fdfa;
+}
+
+table.dataTable tbody td {
+    font-size: 15px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
+.dt-container .dt-length,
+.dt-container .dt-info,
+.dt-container .dt-search {
+    font-size: 15px;
+}
+
+.dt-layout-start {
+    display: flex;
+}
+.dt-layout-end {
+    display: flex;
+}
+
 table.dataTable.dtr-column>tbody>tr>td.dtr-control:before, 
 table.dataTable.dtr-column>tbody>tr>th.dtr-control:before, 
 table.dataTable.dtr-column>tbody>tr>td.control:before, 
@@ -9,7 +35,7 @@ table.dataTable.dtr-column>tbody>tr>th.control:before {
     border-radius: 100%;
     width: 18px;
     height: 18px;
-    line-height: 13px;
+    line-height: 18px;
     color: #fff;
     border: 1px solid #ddd;
 }
@@ -22,7 +48,22 @@ table.dataTable.dtr-column>tbody>tr.dtr-expanded td.dtr-control:before, table.da
     border-radius: 100%;
     width: 18px;
     height: 18px;
-    line-height: 13px;
+    line-height: 18px;
     color: #fff;
     border: 1px solid #ddd;
+}
+
+div.dt-container div.dt-search input {
+    margin-left: .5em;
+    display: inline-block;
+    width: auto;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+}
+
+.page-item.active .page-link {
+    z-index: 3;
+    color: #fff;
+    background-color: #1cbc98;
+    border-color: #007bff;
 }
