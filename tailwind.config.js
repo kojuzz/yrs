@@ -16,7 +16,7 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['Lato', ...defaultTheme.fontFamily.sans],
             },
             backgroundImage: {
                 theme: "linear-gradient(90deg, #3CACB6 0%, #8CCEAD 90%)",

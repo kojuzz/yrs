@@ -69,6 +69,7 @@
                     },
                     {
                         data: 'action',
+                        class: 'text-center'
                     }
                 ],
                 order: [
