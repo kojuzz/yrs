@@ -104,6 +104,14 @@
 
     <script>
         $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': document.head.querySelector('meta[name="csrf-token"]').content
+                },
+                error: function(res, status, error) {
+                    toastr.error(res.responseJSON.message);
+                }
+            });
             @if(session('success'))
                 toastr.success("{{ session('success') }}")
             @endif

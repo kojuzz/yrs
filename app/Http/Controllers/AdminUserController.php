@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AdminUserStoreRequest;
 use App\Http\Requests\AdminUserUpdateRequest;
 use App\Models\AdminUser;
+use App\Services\ResponseService;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -64,6 +66,15 @@ class AdminUserController extends Controller
             return redirect()->route('admin-user.index')->with('success', 'Admin user updated successfully');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
+        }
+    }
+    public function destroy(AdminUser $admin_user) {
+        try {
+            // throw new Exception('hello');
+            $admin_user->delete();
+            return ResponseService::success([], 'Admin user deleted successfully');
+        } catch (Exception $e) {
+            return ResponseService::fail($e->getMessage());
         }
     }
 }
