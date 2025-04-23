@@ -1,0 +1,12 @@
+div:where(.swal2-container).swal2-center > .swal2-popup {
+    border-radius: 15px;
+}
+div:where(.swal2-icon){
+    margin: 1.6rem auto 0.6rem !important;
+}
+div:where(.swal2-container) h2:where(.swal2-title) {
+    font-size: 1.2rem !important;
+}
+div:where(.swal2-container) div:where(.swal2-html-container) {
+    font-size: 1rem !important;
+}
