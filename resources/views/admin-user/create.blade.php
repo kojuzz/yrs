@@ -1,7 +1,7 @@
 @extends("layouts.app")
 
 @section("title", "Create Admin User")
-
+@section("admin-user-page-active", "active")
 @section("header")
     <div class="tw-flex tw-justify-between tw-items-center">
         <div class="tw-flex tw-justify-between tw-items-center">
