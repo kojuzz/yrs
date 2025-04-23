@@ -4,6 +4,9 @@ namespace App\Repositories;
 
 use App\Models\AdminUser;
 use App\Repositories\Contracts\BaseRepository;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class AdminUserRepository implements BaseRepository
 {
@@ -33,5 +36,23 @@ class AdminUserRepository implements BaseRepository
         $record = $this->model::find($id);
         $record->delete();
         return $record;  
+    }
+    public function datatable(Request $request)
+    {
+        $model = AdminUser::query();
+        return DataTables::eloquent($model)
+            ->editColumn('created_at', function($admin_user){
+                return Carbon::parse($admin_user->created_at)->format('Y-m-d H:i:s');
+            })
+            ->editColumn('updated_at', function($admin_user){
+                return Carbon::parse($admin_user->updated_at)->format('Y-m-d H:i:s');
+            })
+            ->addColumn('action', function($admin_user){
+                return view('admin-user._action', compact('admin_user'));
+            })
+            ->addColumn('responsive-icon', function($admin_user){
+                return null;
+            })
+            ->toJson();
     }
 }
