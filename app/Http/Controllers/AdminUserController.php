@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AdminUserStoreRequest;
 use App\Http\Requests\AdminUserUpdateRequest;
 use App\Models\AdminUser;
+use App\Repositories\AdminUserRepository;
 use App\Services\ResponseService;
 use Carbon\Carbon;
 use Exception;
@@ -15,6 +16,11 @@ use Yajra\DataTables\Facades\DataTables;
 
 class AdminUserController extends Controller
 {
+    protected $adminUserRepository;
+    public function __construct(AdminUserRepository $adminUserRepository)
+    {
+        $this->adminUserRepository = $adminUserRepository;
+    }
     public function index()
     {
         return view('admin-user.index');
@@ -54,7 +60,8 @@ class AdminUserController extends Controller
             return back()->with('error', $e->getMessage());
         }
     }
-    public function edit(AdminUser $admin_user) {
+    public function edit($id) {
+        $admin_user = $this->adminUserRepository->find($id);
         return view('admin-user.edit', compact('admin_user'));
     }
     public function update(AdminUser $admin_user, AdminUserUpdateRequest $request) {
