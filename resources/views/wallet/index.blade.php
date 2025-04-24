@@ -1,17 +1,12 @@
 @extends("layouts.app")
 
-@section("title", "User")
-@section("user-page-active", "active")
+@section("title", "Wallet")
+@section("wallet-page-active", "active")
 @section("header")
     <div class="tw-flex tw-justify-between tw-items-center">
         <div class="tw-flex tw-justify-between tw-items-center">
-            <i class="fas fa-user tw-p-3 tw-bg-white tw-rounded-lg tw-shadow tw-mr-1"></i>
-            <h5 class="tw-text-lg mb-0">User</h5>
-        </div>
-        <div>
-            <x-create-button href="{{ route('user.create') }}">
-                <i class="fas fa-plus mr-1"></i>Create
-            </x-create-button>
+            <i class="fas fa-wallet tw-p-3 tw-bg-white tw-rounded-lg tw-shadow tw-mr-1"></i>
+            <h5 class="tw-text-lg mb-0">Wallet</h5>
         </div>
     </div>
 @endsection
@@ -22,12 +17,10 @@
             <thead>
                 <tr>
                     <th class="text-center"></th>
-                    <th class="text-center">Name</th>
-                    <th class="text-center">Email</th>
-                    <th class="text-center">Verified at</th>
+                    <th class="text-center">User</th>
+                    <th class="text-center">Amount</th>
                     <th class="text-center">Created at</th>
                     <th class="text-center">Updated at</th>
-                    <th class="text-center no-sort no-search">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -43,7 +36,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('user-datatable') }}",
+                    url: "{{ route('wallet-datatable') }}",
                     data: function(d) {
                     }
                 },
@@ -53,15 +46,11 @@
                         class: 'text-center'
                     },
                     {
-                        data: 'name',
+                        data: 'user_name',
                         class: 'text-center'
                     },
                     {
-                        data: 'email',
-                        class: 'text-center'
-                    },
-                    {
-                        data: 'email_verified_at',
+                        data: 'amount',
                         class: 'text-center'
                     },
                     {
@@ -71,14 +60,10 @@
                     {
                         data: 'updated_at',
                         class: 'text-center'
-                    },
-                    {
-                        data: 'action',
-                        class: 'text-center'
                     }
                 ],
                 order: [
-                    [5, 'desc']
+                    [4, 'desc']
                 ],
                 columnDefs: [
                     {
@@ -101,22 +86,6 @@
                         target: 0
                     }
                 }
-            });
-            $(document).on('click', '.delete-button', function(event) {
-                event.preventDefault();
-                var url = $(this).data('url');
-                deleteDialog.fire().then((result) => {
-                    if(result.isConfirmed) {
-                        $.ajax({
-                            url: url,
-                            method: 'DELETE',
-                            success: function(response) {
-                                table.ajax.reload();
-                                toastr.success(response.message);
-                            }
-                        });
-                    }
-                });
             });
         });
     </script>
