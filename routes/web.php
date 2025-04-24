@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Select2AjaxController;
 use App\Http\Controllers\TicketInspectorController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WalletController;
@@ -50,8 +51,13 @@ Route::middleware(['auth:admin_users', 'verified'])->group(function () {
 
     Route::resource('wallet', WalletController::class)->only('index');
     Route::get('wallet-datatable', [WalletController::class, 'datatable'])->name('wallet-datatable');
+    Route::get('wallet-add', [WalletController::class, 'addAmount'])->name('wallet-add-amount');
+    Route::post('wallet-add', [WalletController::class, 'addAmountStore'])->name('wallet-add-amount.store');
 
     Route::resource('ticket-inspector', TicketInspectorController::class);
     Route::get('ticket-inspector-datatable', [TicketInspectorController::class, 'datatable'])->name('ticket-inspector-datatable');
 
+    Route::prefix('select2-ajax')->name('select2-ajax.')->group(function () {
+        Route::get('wallet', [Select2AjaxController::class, 'wallet'])->name('wallet');
+    });
 });

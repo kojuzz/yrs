@@ -33,6 +33,9 @@
     <!-- DataTables -->
     <link rel="stylesheet" href="{{ asset("plugins/datatables/datatables.min.css") }}">
 
+    {{-- Select2 --}}
+    <link rel="stylesheet" href="{{ asset("plugins/select2/css/select2.min.css") }}">
+
     <!-- Scripts -->
     @vite(["resources/sass/app.scss", "resources/js/app.js"])
 </head>
@@ -101,6 +104,9 @@
 
     <!-- DataTables -->
     <script src="{{ asset("plugins/datatables/datatables.min.js") }}"></script>
+
+    <!-- Select2 -->
+    <script src="{{ asset("plugins/select2/js/select2.min.js") }}"></script>
 
     <script>
         $(document).ready(function() {

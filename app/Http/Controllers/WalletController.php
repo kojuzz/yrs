@@ -22,4 +22,7 @@ class WalletController extends Controller
             return $this->walletRepository->datatable($request);
         }
     }
+    public function addAmount() {
+        return view('wallet.add-amount');
+    }
 }

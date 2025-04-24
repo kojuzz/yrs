@@ -8,6 +8,11 @@
             <i class="fas fa-wallet tw-p-3 tw-bg-white tw-rounded-lg tw-shadow tw-mr-1"></i>
             <h5 class="tw-text-lg mb-0">Wallet</h5>
         </div>
+        <div>
+            <x-create-button href="{{ route('wallet-add-amount') }}">
+                <i class="fas fa-plus mr-1"></i>Add Amount
+            </x-create-button>
+        </div>
     </div>
 @endsection
 
