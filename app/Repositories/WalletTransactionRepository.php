@@ -29,10 +29,18 @@ class WalletTransactionRepository implements BaseRepository
     public function delete($id) {}
     public function datatable(Request $request)
     {
-        $model = Wallet::query();
+        $model = WalletTransaction::with('user:id,name,email');
         return DataTables::eloquent($model)
             ->addColumn('user_name', function ($wallet) {
                 return ($wallet->user->name ?? '-'). ' (' . ($wallet->user->email ?? '-'). ')';
+            })
+            ->editColumn('method', function ($wallet) {
+                // return $wallet->acsrMethod['text'];
+                // return '<span class="tw-text-[#' . $wallet->acsrMethod['color'] . ']">' . $wallet->acsrMethod['text'] . '</span>';
+                return '<span style="color: #' . $wallet->acsrMethod['color'] . '">' . $wallet->acsrMethod['text'] . '</span>';
+            })
+            ->editColumn('type', function ($wallet) {
+                return '<span style="color: #' . $wallet->acsrType['color'] . '">' . $wallet->acsrType['text'] . '</span>';
             })
             ->editColumn('amount', function ($wallet) {
                 return number_format($wallet->amount);
@@ -46,6 +54,7 @@ class WalletTransactionRepository implements BaseRepository
             ->addColumn('responsive-icon', function($wallet){
                 return null;
             })
+            ->rawColumns(['method', 'type'])
             ->toJson();
     }
 }
