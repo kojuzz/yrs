@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Repositories\WalletRepository;
 use App\Repositories\WalletTransactionRepository;
+use Illuminate\Support\Str;
 
 class WalletService
 {
@@ -14,6 +15,7 @@ class WalletService
 
         // Wallet Transcation
         (new WalletTransactionRepository())->create([
+            'trx_id' => Str::random(10),
             'wallet_id' => $wallet->id,
             'user_id' => $wallet->user_id,
             'sourceable_id' => $data['sourceable_id'],
@@ -31,6 +33,7 @@ class WalletService
 
         // Wallet Transcation
         (new WalletTransactionRepository())->create([
+            'trx_id' => Str::random(10),
             'wallet_id' => $wallet->id,
             'user_id' => $wallet->user_id,
             'sourceable_id' => $data['sourceable_id'],

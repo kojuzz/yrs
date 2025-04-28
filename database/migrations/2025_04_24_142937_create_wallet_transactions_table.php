@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('wallet_transactions', function (Blueprint $table) {
             $table->id();
+            $table->string('trx_id')->unique('trx_id_unique');
             $table->bigInteger('wallet_id');
             $table->bigInteger('user_id');
             $table->bigInteger('sourceable_id')->nullable();
