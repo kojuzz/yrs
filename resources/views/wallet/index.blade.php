@@ -12,6 +12,9 @@
             <x-create-button href="{{ route('wallet-add-amount') }}">
                 <i class="fas fa-plus mr-1"></i>Add Amount
             </x-create-button>
+            <x-create-button href="{{ route('wallet-reduce-amount') }}">
+                <i class="fas fa-minus mr-1"></i>Reduce Amount
+            </x-create-button>
         </div>
     </div>
 @endsection

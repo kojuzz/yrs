@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\Wallet;
 use App\Repositories\Contracts\BaseRepository;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -68,6 +69,17 @@ class WalletRepository implements BaseRepository
         // lockForUpdate ဆိုတာ တပြိုက်ထဲ ဖြစ်တဲ့အခါမျိုးမှာ နောက်ကဟာကို ဝင်မရအောင် lock ချထားတာမျိုးပါ
         $record = $this->model::lockForUpdate()->findOrFail($id);
         $record->increment('amount', $amount);
+        $record->update();
+        return $record;
+    }
+    public function reduceAmount($id, $amount)
+    {
+        // lockForUpdate ဆိုတာ တပြိုက်ထဲ ဖြစ်တဲ့အခါမျိုးမှာ နောက်ကဟာကို ဝင်မရအောင် lock ချထားတာမျိုးပါ
+        $record = $this->model::lockForUpdate()->findOrFail($id);
+        if($record->amount < $amount) {
+            throw new Exception('Insufficient balance');
+        }
+        $record->decrement('amount', $amount);
         $record->update();
         return $record;
     }
