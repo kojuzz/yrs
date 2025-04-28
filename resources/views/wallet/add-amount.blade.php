@@ -17,12 +17,15 @@
     <x-card>
         <form method="post" action="{{ route('wallet-add-amount.store') }}" class="" id="submit-form">
             @csrf
-            @method('post')
+            {{-- @method('post')  --}}
     
             <div class="form-group">
                 <x-input-label for="wallet_id" value="Wallet" />
                 <select name="wallet_id" id="wallet_id" class="custom-select">
-                    
+                    @if($selected_wallet)
+                        {{-- Select2 Selected --}}
+                        <option value="{{ $selected_wallet->id }}" selected>{{ $selected_wallet->user->name ?? '-' }}</option>
+                    @endif
                 </select>
             </div>
             
@@ -38,7 +41,7 @@
     
             <div class="tw-flex tw-justify-center tw-items-center tw-mt-5 tw-gap-4">
                 <x-confirm-button>Confirm</x-confirm-button>
-                <x-cancel-button href="{{ route('user.index') }}">Cancel</x-cancel-button>
+                <x-cancel-button href="{{ route('wallet.index') }}">Cancel</x-cancel-button>
             </div>
         </form>
     </x-card>
@@ -46,11 +49,12 @@
 
 
 @push("scripts")
-    {!! JsValidator::formRequest('App\Http\Requests\UserStoreRequest', '#submit-form') !!}
+    {!! JsValidator::formRequest('App\Http\Requests\WalletAddAmountStoreRequest', '#submit-form') !!}
     
     <script>
         $(document).ready(function() {
             $('#wallet_id').select2({
+                placeholder: '-- Please Choose --',
                 ajax: {
                     url: '{{ route('select2-ajax.wallet') }}',
                     data: function (params) {
@@ -59,7 +63,7 @@
                             page: params.page || 1
                         }
                     },
-                    processResults: function (response) {
+                    processResults: function(response) {
                         console.log(response);
                         return {
                             results: $.map(response.data, function (item) {
@@ -72,7 +76,8 @@
                                 more: response.next_page_url != null ? true : false
                             }
                         };
-                    }
+                    },
+                    cache: true
                 }
             });
         });

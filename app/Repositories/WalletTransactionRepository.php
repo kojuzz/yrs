@@ -2,18 +2,18 @@
 
 namespace App\Repositories;
 
-use App\Models\Wallet;
+use App\Models\WalletTransaction;
 use App\Repositories\Contracts\BaseRepository;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
-class WalletRepository implements BaseRepository
+class WalletTransactionRepository implements BaseRepository
 {
     protected $model;
     public function __construct()
     {
-        $this->model = Wallet::class;
+        $this->model = WalletTransaction::class;
     }
     public function find($id)
     {
@@ -25,23 +25,8 @@ class WalletRepository implements BaseRepository
         $record = $this->model::create($data);
         return $record;
     }
-    public function firstOrCreate(array $data1, array $data2)
-    {
-        $record = $this->model::firstOrCreate($data1, $data2);
-        return $record;
-    }
-    public function update($id, array $data)
-    {
-        $record = $this->model::find($id);
-        $record->update($data);
-        return $record;
-    }
-    public function delete($id)
-    {
-        $record = $this->model::find($id);
-        $record->delete();
-        return $record;  
-    }
+    public function update($id, array $data) {}
+    public function delete($id) {}
     public function datatable(Request $request)
     {
         $model = Wallet::query();
@@ -62,13 +47,5 @@ class WalletRepository implements BaseRepository
                 return null;
             })
             ->toJson();
-    }
-    public function addAmount($id, $amount)
-    {
-        // lockForUpdate ဆိုတာ တပြိုက်ထဲ ဖြစ်တဲ့အခါမျိုးမှာ နောက်ကဟာကို ဝင်မရအောင် lock ချထားတာမျိုးပါ
-        $record = $this->model::lockForUpdate()->findOrFail($id);
-        $record->increment('amount', $amount);
-        $record->update();
-        return $record;
     }
 }

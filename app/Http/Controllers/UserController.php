@@ -48,7 +48,7 @@ class UserController extends Controller
             ]);
             return redirect()->route('user.index')->with('success', 'User created successfully');
         } catch (\Exception $e) {
-            return back()->with('error', $e->getMessage());
+            return back()->with('error', $e->getMessage())->withInput();
         }
     }
     public function edit($id) {
@@ -64,7 +64,7 @@ class UserController extends Controller
             ]);
             return redirect()->route('user.index')->with('success', 'User updated successfully');
         } catch (\Exception $e) {
-            return back()->with('error', $e->getMessage());
+            return back()->with('error', $e->getMessage())->withInput();
         }
     }
     public function destroy($id) {

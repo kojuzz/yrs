@@ -42,7 +42,7 @@ class AdminUserController extends Controller
             ]);
             return redirect()->route('admin-user.index')->with('success', 'Admin user created successfully');
         } catch (\Exception $e) {
-            return back()->with('error', $e->getMessage());
+            return back()->with('error', $e->getMessage())->withInput();
         }
     }
     public function edit($id) {
@@ -58,7 +58,7 @@ class AdminUserController extends Controller
             ]);
             return redirect()->route('admin-user.index')->with('success', 'Admin user updated successfully');
         } catch (\Exception $e) {
-            return back()->with('error', $e->getMessage());
+            return back()->with('error', $e->getMessage())->withInput();
         }
     }
     public function destroy($id) {

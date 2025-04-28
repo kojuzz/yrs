@@ -39,7 +39,7 @@ class TicketInspectorController extends Controller
             ]);
             return redirect()->route('ticket-inspector.index')->with('success', 'Ticket inspector created successfully');
         } catch (\Exception $e) {
-            return back()->with('error', $e->getMessage());
+            return back()->with('error', $e->getMessage())->withInput();
         }
     }
     public function edit($id) {
@@ -55,7 +55,7 @@ class TicketInspectorController extends Controller
             ]);
             return redirect()->route('ticket-inspector.index')->with('success', 'Ticket inspector updated successfully');
         } catch (\Exception $e) {
-            return back()->with('error', $e->getMessage());
+            return back()->with('error', $e->getMessage())->withInput();
         }
     }
     public function destroy($id) {
