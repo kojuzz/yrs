@@ -17,6 +17,11 @@ class WalletTransactionController extends Controller
     {
         return view('wallet-transaction.index');
     }
+    public function show($id)
+    {
+        $wallet_transaction = $this->walletTransactionRepository->find($id);
+        return view('wallet-transaction.show', compact('wallet_transaction'));
+    }
     public function datatable(Request $request)
     {
         if($request->ajax()) {

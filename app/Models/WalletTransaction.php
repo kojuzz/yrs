@@ -83,4 +83,42 @@ class WalletTransaction extends Model
             }
         );
     }
+    public function acsrFrom(): Attribute
+    {
+        return Attribute::make(
+            get: function (mixed $value, array $attributes) {
+                switch ($attributes['method']) {
+                    case 'add':
+                        $from = $this->acsrType['text'] . ($this->sourceable ? ' (' . $this->sourceable->id . ')' : '');
+                        break;
+                    case 'reduce':
+                        $from = $this->user->name;
+                        break;
+                    default:
+                        $from = '';
+                        break;
+                }
+                return $from;
+            }
+        );
+    }
+    public function acsrTo(): Attribute
+    {
+        return Attribute::make(
+            get: function (mixed $value, array $attributes) {
+                switch ($attributes['method']) {
+                    case 'reduce':
+                        $from = $this->acsrType['text'] . ($this->sourceable ? ' (' . $this->sourceable->id . ')' : '');
+                        break;
+                    case 'add':
+                        $from = $this->user->name;
+                        break;
+                    default:
+                        $from = '';
+                        break;
+                }
+                return $from;
+            }
+        );
+    }
 }

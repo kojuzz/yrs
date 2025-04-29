@@ -1,6 +1,8 @@
 import defaultTheme from 'tailwindcss/defaultTheme';
 import forms from '@tailwindcss/forms';
 
+const colors = require('tailwindcss/colors');
+
 /** @type {import('tailwindcss').Config} */
 export default {
     prefix: 'tw-',
@@ -27,6 +29,22 @@ export default {
             textColor: {
                 theme: "#1CBC9B",
             }
+        },
+        colors: {
+            transparent: 'transparent',
+            current: 'currentColor',
+            black: colors.black,
+            white: colors.white,
+            gray: colors.gray,
+            red: colors.red,
+            orange: colors.orange,
+            yellow: colors.yellow,
+            green: colors.green,
+            blue: colors.blue,
+            indigo: colors.indigo,
+            purple: colors.purple,
+            pink: colors.pink,
+            sky: colors.sky,
         },
     },
 

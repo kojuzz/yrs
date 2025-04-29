@@ -1,7 +1,7 @@
 @extends("layouts.app")
 
 @section("title", "Wallet Transaction")
-@section("wallet-transaction-active", "active")
+@section("wallet-transaction-page-active", "active")
 @section("header")
     <div class="tw-flex tw-justify-between tw-items-center">
         <div class="tw-flex tw-justify-between tw-items-center">
@@ -24,6 +24,7 @@
                     <th class="text-center">Amount</th>
                     <th class="text-center">Created at</th>
                     <th class="text-center">Updated at</th>
+                    <th class="text-center no-sort no-search">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -74,6 +75,10 @@
                     },
                     {
                         data: 'updated_at',
+                        class: 'text-center'
+                    },
+                    {
+                        data: 'action',
                         class: 'text-center'
                     }
                 ],
