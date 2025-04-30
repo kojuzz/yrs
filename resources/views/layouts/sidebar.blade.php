@@ -46,6 +46,14 @@
                       </a>
                   </li>
                   <li class="nav-item">
+                      <a href="{{ route('top-up-history.index') }}" class="nav-link @yield('top-up-history-page-active')">
+                          <i class="nav-icon fas fa-image"></i>
+                          <p>
+                              Top Up History
+                          </p>
+                      </a>
+                  </li>
+                  <li class="nav-item">
                       <a href="{{ route('ticket-inspector.index') }}" class="nav-link @yield('ticket-inspector-page-active')">
                           <i class="nav-icon fas fa-user"></i>
                           <p>
