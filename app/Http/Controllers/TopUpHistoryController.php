@@ -6,6 +6,7 @@ use App\Repositories\TopUpHistoryRepository;
 use App\Services\ResponseService;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TopUpHistoryController extends Controller
 {
@@ -30,11 +31,25 @@ class TopUpHistoryController extends Controller
             return $this->topUpHistoryRepository->datatable($request);
         }
     }
+    public function approve($id) {
+        DB::beginTransaction();
+        try {
+            $this->topUpHistoryRepository->approve($id);
+            DB::commit();
+            return ResponseService::success([], 'Successfully Approved');
+        } catch (Exception $e) {
+            DB::rollBack();
+            return ResponseService::fail($e->getMessage());
+        }
+    }
     public function reject($id) {
+        DB::beginTransaction();
         try {
             $this->topUpHistoryRepository->reject($id);
+            DB::commit();
             return ResponseService::success([], 'Successfully Rejected');
         } catch (Exception $e) {
+            DB::rollBack();
             return ResponseService::fail($e->getMessage());
         }
     }

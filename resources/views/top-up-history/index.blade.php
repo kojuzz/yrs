@@ -114,6 +114,25 @@
                 }
             });
 
+            $(document).on('click', '.approve-button', function(event) {
+                event.preventDefault();
+                var url = $(this).data('url');
+                confirmDialog.fire({
+                    title: 'Are you sure want to approve?',
+                }).then((result) => {
+                    if(result.isConfirmed) {
+                        $.ajax({
+                            url: url,
+                            method: 'POST',
+                            success: function(response) {
+                                table.ajax.reload();
+                                toastr.success(response.message);
+                            }
+                        });
+                    }
+                });
+            });
+
             $(document).on('click', '.reject-button', function(event) {
                 event.preventDefault();
                 var url = $(this).data('url');
@@ -132,6 +151,7 @@
                     }
                 });
             });
+
         });
     </script>
 @endpush

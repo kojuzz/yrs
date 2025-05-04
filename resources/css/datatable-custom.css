@@ -9,6 +9,7 @@ table.dataTable tbody td {
     font-size: 15px;
     padding-top: 6px;
     padding-bottom: 6px;
+    vertical-align: middle;
 }
 
 .dt-container .dt-length,
