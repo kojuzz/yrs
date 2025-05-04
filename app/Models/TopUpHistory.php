@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class TopUpHistory extends Model
 {
@@ -56,6 +57,15 @@ class TopUpHistory extends Model
                     'text' => $text,
                     'color' => $color
                 ];
+            }
+        );
+    }
+
+    public function acsrImagePath(): Attribute
+    {
+        return Attribute::make(
+            get: function (mixed $value, array $attributes) {
+                return Storage::url('top-up-history/' . $attributes['image']);
             }
         );
     }

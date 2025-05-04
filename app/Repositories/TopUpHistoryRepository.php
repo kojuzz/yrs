@@ -48,6 +48,9 @@ class TopUpHistoryRepository implements BaseRepository
             ->editColumn('amount', function ($top_up_history) {
                 return number_format($top_up_history->amount);
             })
+            ->editColumn('image', function ($top_up_history) {
+                return '<img src="' .$top_up_history->acsrImagePath . '" alt="Image" class="tw-w-16 tw-h-16 tw-rounded tw-border tw-border-gray-600 tw-p-1" />';
+            })
             ->editColumn('status', function ($top_up_history) {
                 return '<span style="color: #' . $top_up_history->acsrStatus['color'] . '">' . $top_up_history->acsrStatus['text'] . '</span>';
             })
@@ -63,7 +66,7 @@ class TopUpHistoryRepository implements BaseRepository
             ->addColumn('responsive-icon', function($top_up_history){
                 return null;
             })
-            ->rawColumns(['status'])
+            ->rawColumns(['image', 'status'])
             ->toJson();
     }
 }
