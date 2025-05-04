@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\WalletTransaction;
 use App\Repositories\Contracts\BaseRepository;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 

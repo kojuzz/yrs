@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\TopUpHistoryRepository;
+use App\Services\ResponseService;
+use Exception;
 use Illuminate\Http\Request;
 
 class TopUpHistoryController extends Controller
@@ -26,6 +28,14 @@ class TopUpHistoryController extends Controller
     {
         if($request->ajax()) {
             return $this->topUpHistoryRepository->datatable($request);
+        }
+    }
+    public function reject($id) {
+        try {
+            $this->topUpHistoryRepository->reject($id);
+            return ResponseService::success([], 'Successfully Rejected');
+        } catch (Exception $e) {
+            return ResponseService::fail($e->getMessage());
         }
     }
 }

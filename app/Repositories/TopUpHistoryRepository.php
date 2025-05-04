@@ -6,6 +6,7 @@ use App\Models\TopUpHistory;
 use App\Models\WalletTransaction;
 use App\Repositories\Contracts\BaseRepository;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -68,5 +69,16 @@ class TopUpHistoryRepository implements BaseRepository
             })
             ->rawColumns(['image', 'status'])
             ->toJson();
+    }
+    public function reject($id) {
+        $record = $this->model::lockForUpdate()->find($id);
+        if($record->status != 'pending') {
+            throw new Exception('The top up history can not reject');
+        }
+        $record->update([
+            'status' => 'reject',
+            'rejected_at' => date('Y-m-d H:i:s')
+        ]);
+        return $record;
     }
 }
