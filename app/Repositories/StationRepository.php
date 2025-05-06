@@ -2,11 +2,12 @@
 
 namespace App\Repositories;
 
-use App\Models\Station;
-use App\Repositories\Contracts\BaseRepository;
 use Carbon\Carbon;
+use App\Models\Station;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
+use App\Repositories\Contracts\BaseRepository;
 
 class StationRepository implements BaseRepository
 {
@@ -41,6 +42,9 @@ class StationRepository implements BaseRepository
     {
         $model = Station::query();
         return DataTables::eloquent($model)
+            ->editColumn('description', function($station){
+                return Str::limit($station->description, 50, ' ...');
+            })
             ->editColumn('created_at', function($station){
                 return Carbon::parse($station->created_at)->format('Y-m-d H:i:s');
             })

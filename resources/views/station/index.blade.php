@@ -17,7 +17,7 @@
 @endsection
 
 @section("content")
-    <x-card class="pb-5">
+    <x-card class="tw-pb-5">
         <table class="table table-bordered Datatable-tb">
             <thead>
                 <tr>
