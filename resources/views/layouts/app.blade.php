@@ -40,6 +40,10 @@
     {{-- Viewer --}}
     <link rel="stylesheet" href="{{ asset("plugins/viewer/viewer.min.css") }}">
 
+    {{-- Leaflet --}}
+    <link rel="stylesheet" href="{{ asset("plugins/leaflet/leaflet.css") }}">
+    <link rel="stylesheet" href="{{ asset("plugins/leaflet-locationpicker/leaflet-locationpicker.css") }}">
+
     <!-- Scripts -->
     @vite(["resources/sass/app.scss", "resources/js/app.js"])
 </head>
@@ -114,6 +118,10 @@
 
     {{-- Viewer --}}
     <script src="{{ asset("plugins/viewer/viewer.js") }}"></script>
+
+    {{-- Leaflet --}}
+    <script src="{{ asset("plugins/leaflet/leaflet.js") }}"></script>
+    <script src="{{ asset("plugins/leaflet-locationpicker/leaflet-locationpicker.js") }}"></script>
 
     <script>
         $(document).ready(function() {

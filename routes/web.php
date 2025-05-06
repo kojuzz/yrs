@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Select2AjaxController;
+use App\Http\Controllers\StationController;
 use App\Http\Controllers\TicketInspectorController;
 use App\Http\Controllers\TopUpHistoryController;
 use App\Http\Controllers\UserController;
@@ -65,6 +66,9 @@ Route::middleware(['auth:admin_users', 'verified'])->group(function () {
     Route::get('top-up-history-datatable', [TopUpHistoryController::class, 'datatable'])->name('top-up-history-datatable');
     Route::post('top-up-history-approve/{id}', [TopUpHistoryController::class, 'approve'])->name('top-up-history-approve');
     Route::post('top-up-history-reject/{id}', [TopUpHistoryController::class, 'reject'])->name('top-up-history-reject');
+
+    Route::resource('station', StationController::class);
+    Route::get('station-datatable', [StationController::class, 'datatable'])->name('station-datatable');
 
     Route::resource('ticket-inspector', TicketInspectorController::class);
     Route::get('ticket-inspector-datatable', [TicketInspectorController::class, 'datatable'])->name('ticket-inspector-datatable');
