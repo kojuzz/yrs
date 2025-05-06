@@ -50,6 +50,11 @@ class StationController extends Controller
             return back()->with('error', $e->getMessage())->withInput();
         }
     }
+    public function show($id)
+    {
+        $station = $this->stationRepository->find($id);
+        return view('station.show', compact('station'));
+    }
 
     public function edit($id) 
     {
@@ -59,9 +64,13 @@ class StationController extends Controller
 
     public function update($id, StationUpdateRequest $request) {
         try {
+            $location = explode(',', $request->location);
             $this->stationRepository->update($id, [
+                'slug' => Str::slug($request->title) .'-'. Str::random(6),
                 'title' => $request->title,
                 'description' => $request->description,
+                'latitude' => $location[0],
+                'longitude' => $location[1],
             ]);
             return redirect()->route('station.index')->with('success', 'Station updated successfully');
         } catch (\Exception $e) {
