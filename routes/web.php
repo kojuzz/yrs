@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RouteController;
 use App\Http\Controllers\Select2AjaxController;
 use App\Http\Controllers\StationController;
 use App\Http\Controllers\TicketInspectorController;
@@ -69,6 +70,9 @@ Route::middleware(['auth:admin_users', 'verified'])->group(function () {
 
     Route::resource('station', StationController::class);
     Route::get('station-datatable', [StationController::class, 'datatable'])->name('station-datatable');
+
+    Route::resource('route', RouteController::class);
+    Route::get('route-datatable', [RouteController::class, 'datatable'])->name('route-datatable');
 
     Route::resource('ticket-inspector', TicketInspectorController::class);
     Route::get('ticket-inspector-datatable', [TicketInspectorController::class, 'datatable'])->name('ticket-inspector-datatable');
