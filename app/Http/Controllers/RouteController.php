@@ -5,17 +5,21 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RouteStoreRequest;
 use App\Http\Requests\RouteUpdateRequest;
 use App\Repositories\RouteRepository;
+use App\Repositories\RouteStationRepository;
 use App\Services\ResponseService;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class RouteController extends Controller
 {
     protected $routeRepository;
-    public function __construct(RouteRepository $routeRepository)
+    protected $routeStationRepository;
+    public function __construct(RouteRepository $routeRepository, RouteStationRepository $routeStationRepository)
     {
         $this->routeRepository = $routeRepository;
+        $this->routeStationRepository = $routeStationRepository;
     }
 
     public function index()
@@ -35,17 +39,27 @@ class RouteController extends Controller
     }
 
     public function store(RouteStoreRequest $request) {
+        DB::beginTransaction();
         try {
-            $location = explode(',', $request->location);
-            $this->routeRepository->create([
+            $route = $this->routeRepository->create([
                 'slug' => Str::slug($request->title) .'-'. Str::random(6),
                 'title' => $request->title,
                 'description' => $request->description,
-                'latitude' => $location[0],
-                'longitude' => $location[1],
+                'direction' => $request->direction,
             ]);
+
+            foreach($request->schedule as $item) {
+                $this->routeStationRepository->create([
+                    'route_id' => $route->id,
+                    'station_id' => $item['station_id'],
+                    'time' => $item['time'],
+                ]);
+            }
+            
+            DB::commit();
             return redirect()->route('route.index')->with('success', 'Route created successfully');
         } catch (\Exception $e) {
+            DB::rollBack();
             return back()->with('error', $e->getMessage())->withInput();
         }
     }

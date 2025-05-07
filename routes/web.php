@@ -79,5 +79,6 @@ Route::middleware(['auth:admin_users', 'verified'])->group(function () {
 
     Route::prefix('select2-ajax')->name('select2-ajax.')->group(function () {
         Route::get('wallet', [Select2AjaxController::class, 'wallet'])->name('wallet');
+        Route::get('station', [Select2AjaxController::class, 'station'])->name('station');
     });
 });

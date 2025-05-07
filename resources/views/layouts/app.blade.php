@@ -46,6 +46,8 @@
 
     <!-- Scripts -->
     @vite(["resources/sass/app.scss", "resources/js/app.js"])
+
+    @yield('style')
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -70,7 +72,7 @@
             </div>
 
             <!-- Main content -->
-            <section class="content">
+            <section class="content tw-pb-5">
                 <div class="container-fluid">
                     @yield("content")
                 </div>
@@ -122,6 +124,9 @@
     {{-- Leaflet --}}
     <script src="{{ asset("plugins/leaflet/leaflet.js") }}"></script>
     <script src="{{ asset("plugins/leaflet-locationpicker/leaflet-locationpicker.js") }}"></script>
+
+    {{-- Repeater --}}
+    <script src="{{ asset("plugins/repeater/jquery.repeater.js") }}"></script>
 
     <script>
         $(document).ready(function() {
