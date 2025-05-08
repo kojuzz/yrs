@@ -11,7 +11,9 @@
         .daterangepicker .drp-calendar.left {
             padding: 8px !important;
         }
-            
+        .select2-selection {
+            height: 42px !important;
+        }
     </style>
 @endsection
 
@@ -39,45 +41,73 @@
 
             <div class="form-group">
                 <x-input-label for="description" value="Description" />
-                <textarea id="description" name="description" class="form-control" :value="old('description')"></textarea>
+                <textarea id="description" name="description" class="form-control">{{ old('description') }}</textarea>
             </div>
 
             <div class="form-group">
                 <x-input-label for="direction" value="Direction" />
                 <select name="direction" class="custom-select">
-                    <option value="clockwise">Clockwise</option>
-                    <option value="anticlockwise">Anticlockwise</option>
+                    <option value="clockwise" @if(old('direction') == 'clockwise') selected @endif>Clockwise</option>
+                    <option value="anticlockwise" @if(old('direction') == 'anticlockwise') selected @endif>Anticlockwise</option>
                 </select>
             </div>
 
             <div class="tw-mb-3">
                 <x-input-label for="schedule" value="Schedule" />
                 <div data-repeater-list="schedule">
-                    <div data-repeater-item class="tw-mb-3 tw-p-3 tw-border tw-border-gray-300 tw-rounded-lg tw-relative">
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <x-input-label for="station" value="Station" />
-                                    <select name="station_id" class="custom-select station-id" id=""></select>
+                    @forelse ($schedule as $item )
+                        <div data-repeater-item class="tw-mb-3 tw-p-3 tw-border tw-border-gray-300 tw-rounded-lg tw-relative">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <x-input-label for="station" value="Station" />
+                                        <select name="station_id" class="custom-select station-id" id="">
+                                            <option value="{{ $item['station_id'] }}" selected>
+                                                {{ $item['station_title'] }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <x-input-label for="time" value="Time" />
+                                        <x-text-input id="time" name="time" type="text" class="tw-mt-1 tw-block tw-w-full timepicker" value="{{ $item['time'] }}"/>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <x-input-label for="time" value="Time" />
-                                    <x-text-input id="time" name="time" type="text" class="tw-mt-1 tw-block tw-w-full timepicker" />
-                                </div>
-                            </div>
+                            <button data-repeater-delete type="button" class="tw-inline-flex tw-items-center tw-px-4 tw-py-2 tw-bg-red-800 tw-border tw-border-transparent tw-rounded-md tw-font-semibold tw-text-xs tw-text-white tw-uppercase tw-tracking-widest tw-hover:bg-gray-700 focus:tw-bg-gray-700 active:tw-bg-gray-900 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-indigo-500 focus:tw-ring-offset-2 tw-transition tw-ease-in-out tw-duration-150 tw-absolute tw-top-0 tw-right-0">
+                                <i class="fas fa-times-circle"></i>
+                            </button>
                         </div>
-                        <button data-repeater-delete type="button" class="tw-inline-flex tw-items-center tw-px-4 tw-py-2 tw-bg-red-800 tw-border tw-border-transparent tw-rounded-md tw-font-semibold tw-text-xs tw-text-white tw-uppercase tw-tracking-widest tw-hover:bg-gray-700 focus:tw-bg-gray-700 active:tw-bg-gray-900 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-indigo-500 focus:tw-ring-offset-2 tw-transition tw-ease-in-out tw-duration-150 tw-absolute tw-top-0 tw-right-0">
-                            <i class="fas fa-times-circle"></i>
+                    @empty
+                        <div data-repeater-item class="tw-mb-3 tw-p-3 tw-border tw-border-gray-300 tw-rounded-lg tw-relative">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <x-input-label for="station" value="Station" />
+                                        <select name="station_id" class="custom-select station-id" id="">
+                                            <option value="" selected>-- Please Choose --</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <x-input-label for="time" value="Time" />
+                                        <x-text-input id="time" name="time" type="text" class="tw-mt-1 tw-block tw-w-full timepicker"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <button data-repeater-delete type="button" class="tw-inline-flex tw-items-center tw-px-4 tw-py-2 tw-bg-red-800 tw-border tw-border-transparent tw-rounded-md tw-font-semibold tw-text-xs tw-text-white tw-uppercase tw-tracking-widest tw-hover:bg-gray-700 focus:tw-bg-gray-700 active:tw-bg-gray-900 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-indigo-500 focus:tw-ring-offset-2 tw-transition tw-ease-in-out tw-duration-150 tw-absolute tw-top-0 tw-right-0">
+                                <i class="fas fa-times-circle"></i>
+                            </button>
+                        </div>
+                    @endforelse
+                    </div>
+                    <div class="tw-flex">
+                        <button data-repeater-create type="button" class="tw-inline-flex tw-items-center tw-px-4 tw-py-2 tw-bg-gray-800 tw-border tw-border-transparent tw-rounded-md tw-font-semibold tw-text-xs tw-text-white tw-uppercase tw-tracking-widest tw-hover:bg-gray-700 focus:tw-bg-gray-700 active:tw-bg-gray-900 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-indigo-500 focus:tw-ring-offset-2 tw-transition tw-ease-in-out tw-duration-150">
+                            <i class="fas fa-plus-circle"></i> Add Schedule
                         </button>
                     </div>
-                </div>
-                <div class="tw-flex">
-                    <button data-repeater-create type="button" class="tw-inline-flex tw-items-center tw-px-4 tw-py-2 tw-bg-gray-800 tw-border tw-border-transparent tw-rounded-md tw-font-semibold tw-text-xs tw-text-white tw-uppercase tw-tracking-widest tw-hover:bg-gray-700 focus:tw-bg-gray-700 active:tw-bg-gray-900 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-indigo-500 focus:tw-ring-offset-2 tw-transition tw-ease-in-out tw-duration-150">
-                        <i class="fas fa-plus-circle"></i> Add Schedule
-                    </button>
-                </div>
             </div>
 
             <div class="tw-flex tw-justify-center tw-items-center tw-mt-5 tw-gap-4">
@@ -108,7 +138,7 @@
                     initStationSelect2();
                     initTimePicker();
                 },
-                isFirstItemUndeletable: true
+                isFirstItemUndeletable: false
             });
 
             function initStationSelect2() {

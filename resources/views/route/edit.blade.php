@@ -2,6 +2,21 @@
 
 @section("title", "Edit Route")
 @section("route-page-active", "active")
+
+@section("style")
+    <style>
+        .calendar-table {
+            display: none;
+        }
+        .daterangepicker .drp-calendar.left {
+            padding: 8px !important;
+        }
+        .select2-selection {
+            height: 42px !important;
+        }
+    </style>
+@endsection
+
 @section("header")
     <div class="tw-flex tw-justify-between tw-items-center">
         <div class="tw-flex tw-justify-between tw-items-center">
@@ -15,7 +30,7 @@
 
 @section('content')
     <x-card>
-        <form method="post" action="{{ route('route.update', $route->id) }}" class="" id="submit-form">
+        <form method="post" action="{{ route('route.update', $route->id) }}" class="repeater" id="submit-form">
             @csrf
             @method('put')
         
@@ -30,9 +45,47 @@
             </div>
 
             <div class="form-group">
-                <x-input-label for="location" value="Location" />
-                <x-text-input id="location" name="location" type="text" class="tw-mt-1 tw-block tw-w-full location" :value="old('location', $route->latitude.', '.$route->longitude)" />
-                <div class="map-container tw-my-3 border"></div>
+                <x-input-label for="direction" value="Direction" />
+                <select name="direction" class="custom-select">
+                    <option value="clockwise" @if(old('direction', $route->direction) == 'clockwise') selected @endif>Clockwise</option>
+                    <option value="anticlockwise" @if(old('direction', $route->direction) == 'anticlockwise') selected @endif>Anticlockwise</option>
+                </select>
+            </div>
+
+            <div class="tw-mb-3">
+                <x-input-label for="schedule" value="Schedule" />
+                <div data-repeater-list="schedule">
+                    @foreach ($schedule as $item )
+                        <div data-repeater-item class="tw-mb-3 tw-p-3 tw-border tw-border-gray-300 tw-rounded-lg tw-relative">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <x-input-label for="station" value="Station" />
+                                        <select name="station_id" class="custom-select station-id" id="">
+                                            <option value="{{ $item['station_id'] }}" selected>
+                                                {{ $item['station_title'] }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <x-input-label for="time" value="Time" />
+                                        <x-text-input id="time" name="time" type="text" class="tw-mt-1 tw-block tw-w-full timepicker" value="{{ $item['time'] }}"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <button data-repeater-delete type="button" class="tw-inline-flex tw-items-center tw-px-4 tw-py-2 tw-bg-red-800 tw-border tw-border-transparent tw-rounded-md tw-font-semibold tw-text-xs tw-text-white tw-uppercase tw-tracking-widest tw-hover:bg-gray-700 focus:tw-bg-gray-700 active:tw-bg-gray-900 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-indigo-500 focus:tw-ring-offset-2 tw-transition tw-ease-in-out tw-duration-150 tw-absolute tw-top-0 tw-right-0">
+                                <i class="fas fa-times-circle"></i>
+                            </button>
+                        </div>
+                    @endforeach
+                    </div>
+                    <div class="tw-flex">
+                        <button data-repeater-create type="button" class="tw-inline-flex tw-items-center tw-px-4 tw-py-2 tw-bg-gray-800 tw-border tw-border-transparent tw-rounded-md tw-font-semibold tw-text-xs tw-text-white tw-uppercase tw-tracking-widest tw-hover:bg-gray-700 focus:tw-bg-gray-700 active:tw-bg-gray-900 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-indigo-500 focus:tw-ring-offset-2 tw-transition tw-ease-in-out tw-duration-150">
+                            <i class="fas fa-plus-circle"></i> Add Schedule
+                        </button>
+                    </div>
             </div>
     
             <div class="tw-flex tw-justify-center tw-items-center tw-mt-5 tw-gap-4">
@@ -47,17 +100,68 @@
 @push("scripts")
     <script>
         $(document).ready(function() {
-            $('.location').leafletLocationPicker({
-                mapContainer: '.map-container',
-                height: '400px',
-                alwaysOpen: true,
-                // layer: 'mapTiler',
-                map: {
-                    center: [16.781040, 96.161935],
-                    zoom: 15
-                },
+            $('.repeater').repeater({
                 
+                show: function () {
+                    $(this).slideDown();
+                    initStationSelect2();
+                    initTimePicker();
+                },
+                hide: function (deleteElement) {
+                    if(confirm('Are you sure you want to delete this element?')) {
+                        $(this).slideUp(deleteElement);
+                    }
+                },
+                ready: function() {
+                    initStationSelect2();
+                    initTimePicker();
+                },
+                isFirstItemUndeletable: false
             });
+
+            function initStationSelect2() {
+                $('.station-id').select2({
+                    placeholder: '-- Please Choose --',
+                    ajax: {
+                        url: '{{ route('select2-ajax.station') }}',
+                        data: function (params) {
+                            return {
+                                search: params.term,
+                                page: params.page || 1
+                            }
+                        },
+                        processResults: function(response) {
+                            console.log(response);
+                            return {
+                                results: $.map(response.data, function (item) {
+                                    return {
+                                        id: item.id,
+                                        text: item.title
+                                    };
+                                }),
+                                pagination: {
+                                    more: response.next_page_url != null ? true : false
+                                }
+                            };
+                        },
+                        cache: true
+                    }
+                });
+            }
+
+            function initTimePicker() {
+                $('.timepicker').daterangepicker({
+                    "singleDatePicker": true,
+                    "timePicker": true,
+                    "timePicker24Hour": true,
+                    "timePickerSeconds": true,
+                    "autoApply": true,
+                    "locale": {
+                        format: 'HH:mm:ss'
+                    },
+                });
+            }
+
         });
     </script>
 @endpush

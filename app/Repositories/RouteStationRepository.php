@@ -38,4 +38,8 @@ class RouteStationRepository implements BaseRepository
         $record->delete();
         return $record;  
     }
+    public function deleteByRouteId($route_id)
+    {
+        $record = $this->model::where('route_id', $route_id)->delete();
+    }
 }

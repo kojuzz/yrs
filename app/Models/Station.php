@@ -15,4 +15,8 @@ class Station extends Model
         'latitude',
         'longitude',
     ];
+    public function routes()
+    {
+        return $this->belongsToMany(Route::class, 'route_stations', 'station_id', 'route_id')->withPivot('time');
+    }
 }

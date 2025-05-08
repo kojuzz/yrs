@@ -45,6 +45,9 @@ class RouteRepository implements BaseRepository
             ->editColumn('description', function($route){
                 return Str::limit($route->description, 50, ' ...');
             })
+            ->editColumn('direction', function($route){
+                return '<span style="color: #'.$route->acsrDirection['color'].'">'.$route->acsrDirection['text'].'</span>';
+            })
             ->editColumn('created_at', function($route){
                 return Carbon::parse($route->created_at)->format('Y-m-d H:i:s');
             })
@@ -57,6 +60,7 @@ class RouteRepository implements BaseRepository
             ->addColumn('responsive-icon', function($route){
                 return null;
             })
+            ->rawColumns(['direction'])
             ->toJson();
     }
 }
