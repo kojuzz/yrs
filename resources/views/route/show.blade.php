@@ -55,7 +55,7 @@
     $(document).ready(function() {
         var stations = @json($route->stations);
         console.log(stations);
-        var map = L.map('map').setView([16.78106, 96.16194], 14); // မြေပုံ ပြတဲ့နေရာ, ပုံစံ
+        var map = L.map('map').setView([16.78106, 96.16194], 13); // မြေပုံ ပြတဲ့နေရာ, ပုံစံ
 
         // OpenStreetMap Layer
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
