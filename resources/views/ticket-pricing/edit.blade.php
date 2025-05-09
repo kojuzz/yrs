@@ -18,12 +18,24 @@
         <form method="post" action="{{ route('ticket-pricing.update', $ticket_pricing->id) }}" class="" id="submit-form">
             @csrf
             @method('put')
-        
+    
             <div class="form-group">
                 <x-input-label for="type" value="Type" />
-                <x-text-input id="type" name="type" type="text" class="tw-mt-1 tw-block tw-w-full" :value="old('type', $ticket_pricing->type)" />
+                <select name="type" id="" class="custom-select type">
+                    <option value="one_time_ticket" @if(old('type', $ticket_pricing->type) == 'one_time_ticket') selected @endif>One Time Ticket</option>
+                    <option value="one_month_ticket" @if(old('type', $ticket_pricing->type) == 'one_month_ticket') selected @endif>One Month Ticket</option>
+                </select>
             </div>
-            
+
+            <div class="form-group direction-component">
+                <x-input-label for="direction" value="Direction" />
+                <select name="direction" id="" class="custom-select">
+                    <option value="clockwise" @if(old('direction', $ticket_pricing->direction) == 'clockwise') selected @endif>Clockwise</option>
+                    <option value="anticlockwise" @if(old('direction', $ticket_pricing->direction) == 'anticlockwise') selected @endif>Anticlockwise</option>
+                    <option value="both" @if(old('direction', $ticket_pricing->direction) == 'both') selected @endif>Both</option>
+                </select>
+            </div>
+
             <div class="form-group">
                 <x-input-label for="price" value="Price" />
                 <x-text-input id="price" name="price" type="number" class="tw-mt-1 tw-block tw-w-full" :value="old('price', $ticket_pricing->price)" />
@@ -61,6 +73,20 @@
                     format: 'YYYY-MM-DD HH:mm:ss'
                 },
             });
+
+            $(document).on('change', '.type', function() {
+                changeType();
+            });
+            
+            changeType();
+            function changeType() {
+                let type = $('.type').val();
+                if(type == 'one_time_ticket') {
+                    $('.direction-component').show();
+                } else if (type == 'one_month_ticket') {
+                    $('.direction-component').hide();
+                }
+            }
         });
     </script>
 @endpush

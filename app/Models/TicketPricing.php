@@ -11,6 +11,7 @@ class TicketPricing extends Model
     use HasFactory;
     protected $fillable = [
         'type',
+        'direction',
         'price',
         'offer_quantity',
         'remain_quantity',
@@ -29,6 +30,35 @@ class TicketPricing extends Model
                     case 'one_month_ticket':
                         $text = 'One Month Ticket';
                         $color = 'dc2626';
+                        break;
+                    default:
+                        $text = '';
+                        $color = '4b5563';
+                        break;
+                }
+                return [
+                    'text' => $text,
+                    'color' => $color
+                ];
+            }
+        );
+    }
+    public function acsrDirection(): Attribute
+    {
+        return Attribute::make(
+            get: function (mixed $value, array $attributes) {
+                switch ($attributes['direction']) {
+                    case 'clockwise':
+                        $text = 'Clockwise';
+                        $color = '16a34a';
+                        break;
+                    case 'anticlockwise':
+                        $text = 'AntiClockwise';
+                        $color = '2563eb';
+                        break;
+                    case 'both':
+                        $text = 'Both';
+                        $color = 'ea580c';
                         break;
                     default:
                         $text = '';

@@ -21,9 +21,18 @@
     
             <div class="form-group">
                 <x-input-label for="type" value="Type" />
-                <select name="type" id="" class="custom-select">
+                <select name="type" id="" class="custom-select type">
                     <option value="one_time_ticket" @if(old('type') == 'one_time_ticket') selected @endif>One Time Ticket</option>
                     <option value="one_month_ticket" @if(old('type') == 'one_month_ticket') selected @endif>One Month Ticket</option>
+                </select>
+            </div>
+
+            <div class="form-group direction-component">
+                <x-input-label for="direction" value="Direction" />
+                <select name="direction" id="" class="custom-select">
+                    <option value="clockwise" @if(old('direction') == 'clockwise') selected @endif>Clockwise</option>
+                    <option value="anticlockwise" @if(old('direction') == 'anticlockwise') selected @endif>Anticlockwise</option>
+                    <option value="both" @if(old('type') == 'both') selected @endif>Both</option>
                 </select>
             </div>
             
@@ -54,17 +63,31 @@
 @push("scripts")
     <script>
         $(document).ready(function() {
+        
+            $('.datetimepicker').daterangepicker({
+                "drops": "up",
+                "timePicker": true,
+                "timePicker24Hour": true,
+                "timePickerSeconds": true,
+                "autoApply": true,
+                "locale": {
+                    format: 'YYYY-MM-DD HH:mm:ss'
+                },
+            });
+
+            $(document).on('change', '.type', function() {
+                changeType();
+            });
             
-                $('.datetimepicker').daterangepicker({
-                    "drops": "up",
-                    "timePicker": true,
-                    "timePicker24Hour": true,
-                    "timePickerSeconds": true,
-                    "autoApply": true,
-                    "locale": {
-                        format: 'YYYY-MM-DD HH:mm:ss'
-                    },
-                });
+            changeType();
+            function changeType() {
+                let type = $('.type').val();
+                if(type == 'one_time_ticket') {
+                    $('.direction-component').show();
+                } else if (type == 'one_month_ticket') {
+                    $('.direction-component').hide();
+                }
+            }
                 
         });
     </script>

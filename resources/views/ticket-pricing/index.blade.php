@@ -22,14 +22,14 @@
             <thead>
                 <tr>
                     <th class="text-center"></th>
+                    <th class="text-center">ID</th>
                     <th class="text-center">Type</th>
+                    <th class="text-center">Direction</th>
                     <th class="text-center">Price (MMK)</th>
                     <th class="text-center">Offer quantity</th>
                     <th class="text-center">Remain quantity</th>
                     <th class="text-center">Started at</th>
                     <th class="text-center">Ended at</th>
-                    <th class="text-center">Created at</th>
-                    <th class="text-center">Updated at</th>
                     <th class="text-center no-sort no-search">Action</th>
                 </tr>
             </thead>
@@ -56,7 +56,15 @@
                         class: 'text-center'
                     },
                     {
+                        data: 'id',
+                        class: 'text-center'
+                    },
+                    {
                         data: 'type',
+                        class: 'text-center'
+                    },
+                    {
+                        data: 'direction',
                         class: 'text-center'
                     },
                     {
@@ -80,20 +88,12 @@
                         class: 'text-center'
                     },
                     {
-                        data: 'created_at',
-                        class: 'text-center'
-                    },
-                    {
-                        data: 'updated_at',
-                        class: 'text-center'
-                    },
-                    {
                         data: 'action',
                         class: 'text-center'
                     }
                 ],
                 order: [
-                    [8, 'desc']
+                    [7, 'desc']
                 ],
                 columnDefs: [
                     {

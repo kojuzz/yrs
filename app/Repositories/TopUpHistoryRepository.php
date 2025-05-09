@@ -37,7 +37,7 @@ class TopUpHistoryRepository implements BaseRepository
     public function delete($id) {}
     public function datatable(Request $request)
     {
-        $model = $this->model::with('user:id,name,email');
+        $model = $this->model::with(['user:id,name,email']);
         return DataTables::eloquent($model)
             ->filterColumn('user_name', function ($query, $keyword) {
                 $query->whereHas('user', function ($q1) use ($keyword) {

@@ -17,6 +17,7 @@
             <thead>
                 <tr>
                     <th class="text-center"></th>
+                    <th class="text-center">ID</th>
                     <th class="text-center">Transaction Id</th>
                     <th class="text-center">User</th>
                     <th class="text-center">Amount</th>
@@ -49,6 +50,10 @@
                 columns: [
                     {
                         data: 'responsive-icon',
+                        class: 'text-center'
+                    },
+                    {
+                        data: 'id',
                         class: 'text-center'
                     },
                     {
@@ -85,7 +90,7 @@
                     }
                 ],
                 order: [
-                    [7, 'desc']
+                    [8, 'desc']
                 ],
                 columnDefs: [
                     {

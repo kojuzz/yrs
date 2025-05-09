@@ -25,6 +25,7 @@
             <thead>
                 <tr>
                     <th class="text-center"></th>
+                    <th class="text-center">ID</th>
                     <th class="text-center">User</th>
                     <th class="text-center">Amount</th>
                     <th class="text-center">Created at</th>
@@ -54,6 +55,10 @@
                         class: 'text-center'
                     },
                     {
+                        data: 'id',
+                        class: 'text-center'
+                    },
+                    {
                         data: 'user_name',
                         class: 'text-center'
                     },
@@ -71,7 +76,7 @@
                     }
                 ],
                 order: [
-                    [4, 'desc']
+                    [5, 'desc']
                 ],
                 columnDefs: [
                     {

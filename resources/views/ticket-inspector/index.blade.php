@@ -22,6 +22,7 @@
             <thead>
                 <tr>
                     <th class="text-center"></th>
+                    <th class="text-center">ID</th>
                     <th class="text-center">Name</th>
                     <th class="text-center">Email</th>
                     <th class="text-center">Verified at</th>
@@ -53,6 +54,10 @@
                         class: 'text-center'
                     },
                     {
+                        data: 'id',
+                        class: 'text-center'
+                    },
+                    {
                         data: 'name',
                         class: 'text-center'
                     },
@@ -78,7 +83,7 @@
                     }
                 ],
                 order: [
-                    [4, 'desc']
+                    [6, 'desc']
                 ],
                 columnDefs: [
                     {
