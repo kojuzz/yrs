@@ -40,7 +40,7 @@ class TicketPricingRepository implements BaseRepository
     }
     public function datatable(Request $request)
     {
-        $model = TicketPricing::query();
+        $model = $this->model::query();
         return DataTables::eloquent($model)
             ->editColumn('type', function ($ticket_pricing) {
                 return '<span style="color: #' . $ticket_pricing->acsrType['color'] . '">' . $ticket_pricing->acsrType['text'] . '</span>';

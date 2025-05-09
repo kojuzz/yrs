@@ -39,7 +39,7 @@ class TicketInspectorRepository implements BaseRepository
     }
     public function datatable(Request $request)
     {
-        $model = TicketInspector::query();
+        $model = $this->model::query();
         return DataTables::eloquent($model)
             ->editColumn('email_verified_at', function ($ticket_inspector) {
                 return $ticket_inspector->email_verified_at ? Carbon::parse($ticket_inspector->email_verified_at)->format('Y-m-d H:i:s') : 'Not verified';

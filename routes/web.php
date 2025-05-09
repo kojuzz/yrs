@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RouteController;
 use App\Http\Controllers\Select2AjaxController;
 use App\Http\Controllers\StationController;
+use App\Http\Controllers\TicketController;
 use App\Http\Controllers\TicketInspectorController;
 use App\Http\Controllers\TicketPricingController;
 use App\Http\Controllers\TopUpHistoryController;
@@ -72,11 +73,14 @@ Route::middleware(['auth:admin_users', 'verified'])->group(function () {
     Route::resource('station', StationController::class);
     Route::get('station-datatable', [StationController::class, 'datatable'])->name('station-datatable');
 
+    Route::resource('route', RouteController::class);
+    Route::get('route-datatable', [RouteController::class, 'datatable'])->name('route-datatable');
+
     Route::resource('ticket-pricing', TicketPricingController::class)->only('index', 'create', 'store', 'edit', 'update', 'destroy');
     Route::get('ticket-pricing-datatable', [TicketPricingController::class, 'datatable'])->name('ticket-pricing-datatable');
 
-    Route::resource('route', RouteController::class);
-    Route::get('route-datatable', [RouteController::class, 'datatable'])->name('route-datatable');
+    Route::resource('ticket', TicketController::class)->only('index', 'show');
+    Route::get('ticket-datatable', [TicketController::class, 'datatable'])->name('ticket-datatable');
 
     Route::resource('ticket-inspector', TicketInspectorController::class);
     Route::get('ticket-inspector-datatable', [TicketInspectorController::class, 'datatable'])->name('ticket-inspector-datatable');
