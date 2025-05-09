@@ -1,12 +1,12 @@
 @extends("layouts.app")
 
-@section("title", "Edit Station")
-@section("station-page-active", "active")
+@section("title", "Edit Ticket Pricing")
+@section("ticket-pricing-page-active", "active")
 @section("header")
     <div class="tw-flex tw-justify-between tw-items-center">
         <div class="tw-flex tw-justify-between tw-items-center">
-            <i class="fas fa-subway tw-p-3 tw-bg-white tw-rounded-lg tw-shadow tw-mr-1"></i>
-            <h5 class="tw-text-lg mb-0">Edit Station</h5>
+            <i class="fas fa-tag tw-p-3 tw-bg-white tw-rounded-lg tw-shadow tw-mr-1"></i>
+            <h5 class="tw-text-lg mb-0">Edit Ticket Pricing</h5>
         </div>
         <div></div>
     </div>
@@ -15,29 +15,33 @@
 
 @section('content')
     <x-card>
-        <form method="post" action="{{ route('station.update', $station->id) }}" class="" id="submit-form">
+        <form method="post" action="{{ route('ticket-pricing.update', $ticket_pricing->id) }}" class="" id="submit-form">
             @csrf
             @method('put')
         
             <div class="form-group">
-                <x-input-label for="title" value="Title" />
-                <x-text-input id="title" name="title" type="text" class="tw-mt-1 tw-block tw-w-full" :value="old('title', $station->title)" />
+                <x-input-label for="type" value="Type" />
+                <x-text-input id="type" name="type" type="text" class="tw-mt-1 tw-block tw-w-full" :value="old('type', $ticket_pricing->type)" />
             </div>
             
             <div class="form-group">
-                <x-input-label for="description" value="Description" />
-                <textarea id="description" name="description" class="form-control">{{ old('description', $station->description) }}</textarea>
+                <x-input-label for="price" value="Price" />
+                <x-text-input id="price" name="price" type="number" class="tw-mt-1 tw-block tw-w-full" :value="old('price', $ticket_pricing->price)" />
             </div>
 
             <div class="form-group">
-                <x-input-label for="location" value="Location" />
-                <x-text-input id="location" name="location" type="text" class="tw-mt-1 tw-block tw-w-full location" :value="old('location', $station->latitude.', '.$station->longitude)" />
-                <div class="map-container tw-my-3 border"></div>
+                <x-input-label for="offer_quantity" value="Offer Quantity" />
+                <x-text-input id="offer_quantity" name="offer_quantity" type="number" class="tw-mt-1 tw-block tw-w-full" :value="old('offer_quantity', $ticket_pricing->offer_quantity)" />
+            </div>
+
+            <div class="form-group">
+                <x-input-label for="period" value="Period" />
+                <x-text-input id="period" name="period" type="text" class="tw-mt-1 tw-block tw-w-full datetimepicker" :value="old('period', $ticket_pricing->started_at . ' - ' . $ticket_pricing->ended_at)" />
             </div>
     
             <div class="tw-flex tw-justify-center tw-items-center tw-mt-5 tw-gap-4">
                 <x-confirm-button>Confirm</x-confirm-button>
-                <x-cancel-button href="{{ route('station.index') }}">Cancel</x-cancel-button>
+                <x-cancel-button href="{{ route('ticket-pricing.index') }}">Cancel</x-cancel-button>
             </div>
         </form>
     </x-card>
@@ -47,21 +51,20 @@
 @push("scripts")
     <script>
         $(document).ready(function() {
-            $('.location').leafletLocationPicker({
-                mapContainer: '.map-container',
-                height: '400px',
-                alwaysOpen: true,
-                // layer: 'mapTiler',
-                map: {
-                    center: [16.781040, 96.161935],
-                    zoom: 15
+            $('.datetimepicker').daterangepicker({
+                "drops": "up",
+                "timePicker": true,
+                "timePicker24Hour": true,
+                "timePickerSeconds": true,
+                "autoApply": true,
+                "locale": {
+                    format: 'YYYY-MM-DD HH:mm:ss'
                 },
-                
             });
         });
     </script>
 @endpush
 
 @push('scripts')
-    {!! JsValidator::formRequest('App\Http\Requests\StationUpdateRequest', '#submit-form') !!}
+    {!! JsValidator::formRequest('App\Http\Requests\TicketPricingUpdateRequest', '#submit-form') !!}
 @endpush

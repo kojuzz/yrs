@@ -72,7 +72,7 @@ Route::middleware(['auth:admin_users', 'verified'])->group(function () {
     Route::resource('station', StationController::class);
     Route::get('station-datatable', [StationController::class, 'datatable'])->name('station-datatable');
 
-    Route::resource('ticket-pricing', TicketPricingController::class);
+    Route::resource('ticket-pricing', TicketPricingController::class)->only('index', 'create', 'store', 'edit', 'update', 'destroy');
     Route::get('ticket-pricing-datatable', [TicketPricingController::class, 'datatable'])->name('ticket-pricing-datatable');
 
     Route::resource('route', RouteController::class);

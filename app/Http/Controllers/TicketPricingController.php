@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TicketPricingStoreRequest;
+use App\Http\Requests\TicketPricingUpdateRequest;
 use App\Repositories\TicketPricingRepository;
 use App\Services\ResponseService;
 use Exception;
@@ -32,25 +34,21 @@ class TicketPricingController extends Controller
         return view('ticket-pricing.create');
     }
 
-    public function store(Request $request) {
+    public function store(TicketPricingStoreRequest $request) {
         try {
-            $location = explode(',', $request->location);
+            $period = explode(' - ', $request->period);
             $this->ticketPricingRepository->create([
-                'slug' => Str::slug($request->title) .'-'. Str::random(6),
-                'title' => $request->title,
-                'description' => $request->description,
-                'latitude' => $location[0],
-                'longitude' => $location[1],
+                'type' => $request->type,
+                'price' => $request->price,
+                'offer_quantity' => $request->offer_quantity,
+                'remain_quantity' => $request->offer_quantity,
+                'started_at' => $period[0],
+                'ended_at' => $period[1],
             ]);
             return redirect()->route('ticket-pricing.index')->with('success', 'Ticket Pricing created successfully');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage())->withInput();
         }
-    }
-    public function show($id)
-    {
-        $ticket_pricing = $this->ticketPricingRepository->find($id);
-        return view('ticket-pricing.show', compact('ticket_pricing'));
     }
 
     public function edit($id) 
@@ -59,15 +57,32 @@ class TicketPricingController extends Controller
         return view('ticket-pricing.edit', compact('ticket_pricing'));
     }
 
-    public function update($id, Request $request) {
+    public function update($id, TicketPricingUpdateRequest $request) {
         try {
-            $location = explode(',', $request->location);
+            $ticket_pricing = $this->ticketPricingRepository->find($id);
+            $old_offer_quantity = $ticket_pricing->offer_quantity;
+            $old_remain_quantity = $ticket_pricing->remain_quantity;    
+            // $old_remain_quantity = 900;
+            $new_offer_quantity = $request->offer_quantity;
+            $change_offer_quantity = $new_offer_quantity - $old_offer_quantity;
+            $new_remain_quantity =  $old_remain_quantity + $change_offer_quantity;
+            // dd(
+            //     "Old Offer Quantity: " . $old_offer_quantity,
+            //     "Old Remain Quantity: " . $old_remain_quantity,
+            //     "New Offer Quantity: " . $new_offer_quantity,
+            //     "Change Offer Quantity: " . $change_offer_quantity,
+            //     "New Remain Quantity: " . $new_remain_quantity
+            // );
+
+            $period = explode(' - ', $request->period);
+
             $this->ticketPricingRepository->update($id, [
-                'slug' => Str::slug($request->title) .'-'. Str::random(6),
-                'title' => $request->title,
-                'description' => $request->description,
-                'latitude' => $location[0],
-                'longitude' => $location[1],
+                'type' => $request->type,
+                'price' => $request->price,
+                'offer_quantity' => $new_offer_quantity,
+                'remain_quantity' => $new_remain_quantity,
+                'started_at' => $period[0],
+                'ended_at' => $period[1],
             ]);
             return redirect()->route('ticket-pricing.index')->with('success', 'Ticket Pricing updated successfully');
         } catch (\Exception $e) {
