@@ -14,6 +14,5 @@ use App\Http\Controllers\Api\UserPortal\AuthController;
 |
 */
 
-Route::prefix('user_port')->group(function () {
-    Route::post('register', [AuthController::class, 'register']);
-});
+
+Route::post('register', [AuthController::class, 'register']);
