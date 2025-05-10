@@ -8,6 +8,7 @@ use App\Repositories\WalletRepository;
 use App\Services\ResponseService;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -40,6 +41,39 @@ class AuthController extends Controller
             return ResponseService::success($response, 'Successfully registered');
         } catch (Exception $e) {
             DB::rollBack();
+            return ResponseService::fail($e->getMessage());
+        }
+    }
+    public function login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+        try {
+            DB::beginTransaction();
+            if (Auth::guard('users')->attempt([ 'email' => $request->email, 'password' => $request->password ])){
+                $user = Auth::guard('users')->user();
+                $response = [
+                    'access_token' => $user->createToken(config('app.name'))->plainTextToken
+                ];
+            } else {
+                throw new Exception('These credentials do not match our records');
+            }
+            DB::commit();
+            return ResponseService::success($response, 'Successfully logged in');
+        } catch (Exception $e) {
+            DB::rollBack();
+            return ResponseService::fail($e->getMessage());
+        }
+    }
+    public function logout(Request $request)
+    {
+        try {
+            // $request->user()->currentAccessToken()->delete();
+            $request->user()->tokens()->delete();
+            return ResponseService::success([], 'Successfully logged out');
+        } catch (Exception $e) {
             return ResponseService::fail($e->getMessage());
         }
     }

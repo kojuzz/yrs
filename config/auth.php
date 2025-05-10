@@ -48,6 +48,18 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'users_api' => [
+            'driver' => 'sanctum',
+            'provider' => 'users',
+        ],
+        'ticket_inspector' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+        'ticket_inspector_api' => [
+            'driver' => 'sanctum',
+            'provider' => 'users',
+        ],
     ],
 
     /*
