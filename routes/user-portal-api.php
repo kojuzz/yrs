@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\UserPortal\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,3 +13,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+Route::prefix('user_port')->group(function () {
+    Route::post('register', [AuthController::class, 'register']);
+});
