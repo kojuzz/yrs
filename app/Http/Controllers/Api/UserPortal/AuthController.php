@@ -36,9 +36,22 @@ class AuthController extends Controller
             ], [
                 'amount' => 0
             ]);
-            $response = [
-                'access_token' => $user->createToken(config('app.name'))->plainTextToken
-            ];
+            
+            // check user email is verified or not
+            if ($user->email_verified_at) {
+                $response = [
+                    'is_verified' => 1,
+                    'access_token' => $user->createToken(config('app.name'))->plainTextToken
+                ];
+            } else {
+                // make data at OTP table
+                $otp = (new OTPRepository)->send($request->email);
+                $response = [
+                    'is_verified' => 0,
+                    'otp_token' => $otp->token
+                ];
+            }
+
             DB::commit();
             return ResponseService::success($response, 'Successfully registered');
         } catch (Exception $e) {
@@ -74,6 +87,35 @@ class AuthController extends Controller
             }
             DB::commit();
             return ResponseService::success($response, 'Successfully logged in');
+        } catch (Exception $e) {
+            DB::rollBack();
+            return ResponseService::fail($e->getMessage());
+        }
+    }
+    public function twoStepVerification(Request $request)
+    {
+        $request->validate([
+            'otp_token' => 'required|string',
+            'code' => 'required|string'
+        ]);
+        try {
+            DB::beginTransaction();
+            // verify OTP
+            (new OTPRepository)->verify($request->otp_token, $request->code);
+            // user email ကို decrypt လုပ်ပြီးစစ်
+            $decrypted_otp_token = decrypt($request->otp_token);
+            $user = (new UserRepository)->findByEmail($decrypted_otp_token['email']);
+            if(!$user) {
+                throw new Exception('The user is not found');
+            }
+            $user = (new UserRepository)->update($user->id, [
+                'email_verified_at' => date('Y-m-d H:i:s')
+            ]);
+            DB::commit();
+            // access token ချပေး
+            return ResponseService::success([
+                'access_token' => $user->createToken(config('app.name'))->plainTextToken
+            ], 'Suffessfully logged in');            
         } catch (Exception $e) {
             DB::rollBack();
             return ResponseService::fail($e->getMessage());

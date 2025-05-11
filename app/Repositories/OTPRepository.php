@@ -4,11 +4,13 @@ namespace App\Repositories;
 
 use Carbon\Carbon;
 use App\Models\OTP;
+use App\Notifications\TwoStepVerification;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use App\Repositories\Contracts\BaseRepository;
-
+use Exception;
+use Illuminate\Support\Facades\Notification;
 class OTPRepository implements BaseRepository
 {
     protected $model;
@@ -45,13 +47,28 @@ class OTPRepository implements BaseRepository
             $otp = $this->create([
                 'email' => $email,
                 'code' => $this->otpCode(),
+                'token' => encrypt(['uuid' => Str::uuid(), 'email' => $email]),
                 'expired_at' => now()->addMinutes(5)->format('Y-m-d H:i:s')
             ]);
-            $otp = $this->update($otp->id, [
-                'token' => encrypt(['id' => $otp->id, 'email' => $otp->email])
-            ]);
+        }
+        if(config('app.env') == 'production') {
+            Notification::route('mail', $otp->email)->notify(new TwoStepVerification($otp));
         }
         return $otp;
+    }
+    public function verify ($otp_token, $code)
+    {
+        $otp = $this->model::where('token', $otp_token)->first();
+        if(!$otp) {
+            throw new Exception('The given data is invalid');
+        }
+        if($otp->expired_at < date('Y-m-d H:i:s')) {
+            throw new Exception('the OTP is experied');
+        }
+        if($otp->code != $code) {
+            throw new Exception('The OTP is wrong');
+        }
+        $this->delete($otp->id);
     }
     private function otpCode ()
     {

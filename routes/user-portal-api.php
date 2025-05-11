@@ -18,6 +18,7 @@ use App\Http\Controllers\Api\UserPortal\ProfileController;
 
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
+Route::post('two-step-verification', [AuthController::class, 'twoStepVerification']);
 
 Route::middleware('auth:users_api')->group(function () {
     Route::get('profile', [ProfileController::class, 'profile']);
