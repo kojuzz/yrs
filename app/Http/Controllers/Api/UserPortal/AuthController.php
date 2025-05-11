@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\UserPortal;
 
 use App\Http\Controllers\Controller;
+use App\Repositories\OTPRepository;
 use App\Repositories\UserRepository;
 use App\Repositories\WalletRepository;
 use App\Services\ResponseService;
@@ -11,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Termwind\Components\Ol;
 
 class AuthController extends Controller
 {
@@ -54,9 +56,19 @@ class AuthController extends Controller
             DB::beginTransaction();
             if (Auth::guard('users')->attempt([ 'email' => $request->email, 'password' => $request->password ])){
                 $user = Auth::guard('users')->user();
-                $response = [
-                    'access_token' => $user->createToken(config('app.name'))->plainTextToken
-                ];
+                if ($user->email_verified_at) {
+                    $response = [
+                        'is_verified' => 1,
+                        'access_token' => $user->createToken(config('app.name'))->plainTextToken
+                    ];
+                } else {
+                    // make data at OTP table
+                    $otp = (new OTPRepository)->send($request->email);
+                    $response = [
+                        'is_verified' => 0,
+                        'otp_token' => $otp->token
+                    ];
+                }
             } else {
                 throw new Exception('These credentials do not match our records');
             }
