@@ -121,6 +121,23 @@ class AuthController extends Controller
             return ResponseService::fail($e->getMessage());
         }
     }
+    public function resendOTP(Request $request)
+    {
+        $request->validate([
+            'otp_token' => 'required|string'
+        ]);
+        try {
+            DB::beginTransaction();
+            $otp = (new OTPRepository)->resend($request->otp_token);
+            DB::commit();
+            return ResponseService::success([
+                'otp_token' => $otp->token
+            ], 'Successfully resend OTP');
+        } catch (Exception $e) {
+            DB::rollBack();
+            return ResponseService::fail($e->getMessage());
+        }
+    }
     public function logout(Request $request)
     {
         try {

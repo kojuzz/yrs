@@ -50,9 +50,35 @@ class OTPRepository implements BaseRepository
                 'token' => encrypt(['uuid' => Str::uuid(), 'email' => $email]),
                 'expired_at' => now()->addMinutes(5)->format('Y-m-d H:i:s')
             ]);
+            if(config('app.env') == 'production') {
+                Notification::route('mail', $otp->email)->notify(new TwoStepVerification($otp));
+            }
         }
+        return $otp;
+    }
+    public function resend($otp_token)
+    {
+        $decrypted_otp_token = decrypt($otp_token);
+        $email = $decrypted_otp_token['email'];
+
+        $otp = OTP::where('token', $otp_token)->first();
+        if(!$otp) {
+            throw new Exception('The given data is invalid');
+        }
+        if($otp->expired_at > date('Y-m-d H:i:s')) {
+            throw new Exception('We have already sent the OTP to ' . $otp->email . 'The OTP will expire in ' . now()->diff($otp->expired_at)->format('%i minutes and %s seconds') . '.');
+        }
+
+        $this->delete($otp->id);
+
+        $otp = $this->create([
+            'email' => $email,
+            'code' => $this->otpCode(),
+            'token' => encrypt(['uuid' => Str::uuid(), 'email' => $email]),
+            'expired_at' => now()->addMinutes(5)->format('Y-m-d H:i:s')
+        ]);
         if(config('app.env') == 'production') {
-            Notification::route('mail', $otp->email)->notify(new TwoStepVerification($otp));
+            Notification::route('mail', $email)->notify(new TwoStepVerification($otp));
         }
         return $otp;
     }
