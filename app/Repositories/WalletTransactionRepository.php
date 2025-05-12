@@ -66,4 +66,9 @@ class WalletTransactionRepository implements BaseRepository
             ->rawColumns(['method', 'type'])
             ->toJson();
     }
+    // frontend API
+    public function queryByUser($user)
+    {
+        return $this->model::where('user_id', $user->id);
+    }
 }

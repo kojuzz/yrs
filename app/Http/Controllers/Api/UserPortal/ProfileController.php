@@ -14,8 +14,8 @@ class ProfileController extends Controller
 {
     public function profile()
     {
-        $auth_user = Auth::guard('users_api')->user();
-        return ResponseService::success(new ProfileResource($auth_user));
+        $user = Auth::guard('users_api')->user();
+        return ResponseService::success(new ProfileResource($user));
     }
     public function changePassword(Request $request)
     {
@@ -24,11 +24,11 @@ class ProfileController extends Controller
             'new_password' => 'required|string|min:8|max:20',
         ]);
         try {
-            $auth_user = Auth::guard('users_api')->user();
-            if (!Hash::check($request->old_password, $auth_user->password)) {
+            $user = Auth::guard('users_api')->user();
+            if (!Hash::check($request->old_password, $user->password)) {
                 throw new Exception('The old password is wrong.');
             }
-            $auth_user->update([
+            $user->update([
                 'password' => Hash::make($request->new_password)
             ]);
             return ResponseService::success([], 'Successfully changed password');

@@ -36,19 +36,23 @@ class WalletTransaction extends Model
                 switch ($attributes['method']) {
                     case 'add':
                         $text = 'Add';
+                        $sign = '+';
                         $color = '16a34a';
                         break;
                     case 'reduce':
                         $text = 'Reduce';
+                        $sign = '-';
                         $color = 'dc2626';
                         break;
                     default:
                         $text = '';
+                        $sign = '';
                         $color = '4b5563';
                         break;
                 }
                 return [
                     'text' => $text,
+                    'sign' => $sign,
                     'color' => $color
                 ];
             }
@@ -62,22 +66,27 @@ class WalletTransaction extends Model
                     case 'manual':
                         $text = 'Manual';
                         $color = 'ea580c';
+                        $icon = asset('image/transaction.png');
                         break;
                     case 'top_up':
                         $text = 'Top Up';
                         $color = '2563eb';
+                        $icon = asset('image/top-up.png');
                         break;
                     case 'buy_ticket':
                         $text = 'Buy Ticket';
                         $color = '059669';
+                        $icon = asset('image/buy-ticket.png');
                         break;
                     default:
                         $text = '';
                         $color = '4b5563';
+                        $icon = asset('image/transaction.png');
                         break;
                 }
                 return [
                     'text' => $text,
+                    'icon' => $icon,
                     'color' => $color
                 ];
             }
