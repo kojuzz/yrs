@@ -35,7 +35,7 @@ Route::middleware('auth:users_api')->group(function () {
         Route::get('top-up-history/{trx_id}', [TopUpHistoryController::class, 'show']);
 
         // Topup
-        Route::post('top-up', [TopUpController::class, 'story']);
+        Route::post('top-up', [TopUpController::class, 'store']);
 
     // Wallet Transaction
     Route::get('wallet-transaction', [WalletTransactionController::class, 'index']);
