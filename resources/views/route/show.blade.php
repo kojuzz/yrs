@@ -64,7 +64,7 @@
 
         // Icon
         var myIcon = L.icon({
-            iconUrl: "{{ asset('image/station.png') }}",
+            iconUrl: "{{ asset('image/station-marker.png') }}",
             iconSize: [32, 32],
             iconAnchor: [16, 32],
             popupAnchor: [0, -32]

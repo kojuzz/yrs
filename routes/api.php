@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\StationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return "API";
-});
+// Station
+Route::get('station', [StationController::class, 'index']);
+Route::get('station/{slug}', [StationController::class, 'show']);
 
