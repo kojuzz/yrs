@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -18,7 +19,7 @@ class RouteScheduleOfStationResource extends JsonResource
             'slug' => $this->slug,
             'title' => $this->title,
             'direction' => $this->direction,
-            'time' => $this->pivot->time
+            'time' => Carbon::parse($this->pivot->time)->format('h:i A')
         ];
     }
 }

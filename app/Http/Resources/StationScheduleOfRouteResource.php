@@ -2,10 +2,11 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class StationDetailResource extends JsonResource
+class StationScheduleOfRouteResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,11 +18,9 @@ class StationDetailResource extends JsonResource
         return [
             'slug' => $this->slug,
             'title' => $this->title,
-            'description' => $this->description,
+            'time' => Carbon::parse($this->pivot->time)->format('h:i A'),
             'latitude' => $this->latitude,
             'longitude' => $this->longitude,
-            'clockwise_route_schedules' => RouteScheduleOfStationResource::collection($this->routes->where('direction', 'clockwise')),
-            'anticlockwise_route_schedules' => RouteScheduleOfStationResource::collection($this->routes->where('direction', 'anticlockwise'))
         ];
     }
 }
