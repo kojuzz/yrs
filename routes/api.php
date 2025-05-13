@@ -17,4 +17,4 @@ use Illuminate\Support\Facades\Route;
 // Station
 Route::get('station', [StationController::class, 'index']);
 Route::get('station/{slug}', [StationController::class, 'show']);
-
+Route::get('station-by-region', [StationController::class, 'byRegion']);
