@@ -35,19 +35,23 @@ class Ticket extends Model
                     case 'one_time_ticket':
                         $text = 'One Time Ticket';
                         $color = '16a34a';
+                        $icon = asset('image/one-time-ticket.png');
                         break;
                     case 'one_month_ticket':
                         $text = 'One Month Ticket';
                         $color = 'dc2626';
+                        $icon = asset('image/one-month-ticket.png');
                         break;
                     default:
                         $text = '';
                         $color = '4b5563';
+                        $icon = asset('image/ticket.png');
                         break;
                 }
                 return [
                     'text' => $text,
-                    'color' => $color
+                    'color' => $color,
+                    'icon' => $icon
                 ];
             }
         );

@@ -74,4 +74,10 @@ class TicketRepository implements BaseRepository
                 ->rawColumns(['type', 'direction'])
                 ->toJson();
         }
+
+        // frontend API
+        public function queryByUser($user)
+        {
+            return $this->model::where('user_id', $user->id);
+        }
 }
