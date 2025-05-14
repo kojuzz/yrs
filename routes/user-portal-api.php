@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserPortal\AuthController;
 use App\Http\Controllers\Api\UserPortal\ProfileController;
 use App\Http\Controllers\Api\UserPortal\TicketController;
+use App\Http\Controllers\Api\UserPortal\TicketPricingController;
 use App\Http\Controllers\Api\UserPortal\TopUpController;
 use App\Http\Controllers\Api\UserPortal\TopUpHistoryController;
 use App\Http\Controllers\Api\UserPortal\WalletTransactionController;
@@ -33,6 +34,11 @@ Route::middleware(['auth:users_api', 'verified'])->group(function () {
     // Ticket
     Route::get('ticket', [TicketController::class, 'index']);
     Route::get('ticket/{ticket_number}', [TicketController::class, 'show']);
+
+    // Ticket Pricing
+    Route::get('ticket-pricing', [TicketPricingController::class, 'index']);
+
+    // Buy Ticket
 
     // Tupup
         // History

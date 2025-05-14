@@ -78,4 +78,9 @@ class TicketPricingRepository implements BaseRepository
             ->rawColumns(['type', 'direction'])
             ->toJson();
     }
+
+    public function queryByDateTime($date_time)
+    {
+        return $this->model::where('started_at', '<=', $date_time)->where('ended_at', '>=', $date_time);
+    }
 }
