@@ -22,7 +22,8 @@ class TicketPricingController extends Controller
             $filtered_ticket_pricings = $ticket_pricings->where('type', $type);
             if (count($filtered_ticket_pricings)) {
                 if($type == 'one_time_ticket') {
-                    $pricing[] = [                        
+                    $pricing[] = [
+                        'type' => $type,
                         'title' => 'One Time Ticket',
                         'price' => implode(', ', collect($filtered_ticket_pricings)->map(function($filtered_ticket_pricing) {
                             return $filtered_ticket_pricing->acsrDirection['text'] . ' - ' . number_format($filtered_ticket_pricing->price) . ' MMK';
@@ -31,6 +32,7 @@ class TicketPricingController extends Controller
                     ];
                 } else if($type == 'one_month_ticket') {
                     $pricing[] = [
+                        'type' => $type,
                         'title' => 'One Month Ticket',
                         'price' => implode(', ', collect($filtered_ticket_pricings)->map(function($filtered_ticket_pricing) {
                             return number_format($filtered_ticket_pricing->price) . ' MMK';
