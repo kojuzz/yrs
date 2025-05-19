@@ -52,13 +52,13 @@ return [
             'driver' => 'sanctum',
             'provider' => 'users',
         ],
-        'ticket_inspector' => [
+        'ticket_inspectors' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'ticket_inspectors',
         ],
-        'ticket_inspector_api' => [
+        'ticket_inspectors_api' => [
             'driver' => 'sanctum',
-            'provider' => 'users',
+            'provider' => 'ticket_inspectors',
         ],
     ],
 
@@ -88,7 +88,10 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
-
+        'ticket_inspectors' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\TicketInspector::class,
+        ],
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
@@ -123,6 +126,12 @@ return [
         ],
         'users' => [
             'provider' => 'users',
+            'table' => 'password_reset_tokens',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'ticket_inspectors' => [
+            'provider' => 'ticket_inspectors',
             'table' => 'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,

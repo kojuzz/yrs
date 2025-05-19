@@ -58,4 +58,11 @@ class TicketInspectorRepository implements BaseRepository
             })
             ->toJson();
     }
+
+    public function findByEmail($email)
+    {
+        $record = $this->model::where('email', $email)->first();
+        return $record;
+    }
+
 }
