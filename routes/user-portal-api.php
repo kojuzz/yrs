@@ -26,6 +26,9 @@ Route::middleware(['auth:users_api', 'verified'])->group(function () {
     Route::post('change-password', [ProfileController::class, 'changePassword']);
     Route::post('logout', [AuthController::class, 'logout']);
 
+    // Regenerate QR
+    Route::post('regenerate-qr', [TicketController::class, 'regenerateQR']);
+
     // Ticket
     Route::get('ticket', [TicketController::class, 'index']);
     Route::get('ticket/{ticket_number}', [TicketController::class, 'show']);

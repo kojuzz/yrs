@@ -5,10 +5,13 @@ namespace App\Http\Controllers\Api\UserPortal;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TicketDetailResource;
 use App\Http\Resources\UserPortal\TicketResource;
+use App\Repositories\QRRepository;
 use App\Repositories\TicketRepository;
 use App\Services\ResponseService;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class TicketController extends Controller
 {
@@ -37,5 +40,23 @@ class TicketController extends Controller
             ->where('ticket_number', $ticket_number)
             ->firstOrFail();
         return ResponseService::success(new TicketDetailResource($ticket), 'success');
+    }
+    public function regenerateQR(Request $request)
+    {
+        $request->validate([
+            'qr_token' => 'required|string'
+        ]);
+        try {
+            DB::beginTransaction();
+            $qr = (new QRRepository)->regenerate($request->qr_token);
+
+            DB::commit();
+            return ResponseService::success([
+                'qr_token' => $qr->token,
+            ], 'success');
+        } catch (Exception $e) {
+            DB::rollBack();
+            return ResponseService::fail($e->getMessage());
+        }
     }
 }
