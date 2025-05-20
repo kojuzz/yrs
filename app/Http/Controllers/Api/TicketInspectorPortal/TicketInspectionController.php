@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Services\ResponseService;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\TicketInspectorPortal\TicketInspectionResource;
+use App\Repositories\TicketInspectionRepository;
 use Illuminate\Support\Facades\Auth;
 use App\Services\TicketInspectionService;
 
@@ -14,7 +16,14 @@ class TicketInspectionController extends Controller
 {
     public function index()
     {
-        
+        $ticket_inspector = Auth::guard('ticket_inspectors_api')->user();
+        $ticket_inspections = (new TicketInspectionRepository)
+            ->queryByTicketInspector($ticket_inspector)
+            ->with(['ticket:id,ticket_number,type','route:id,title'])
+            ->paginate(10);
+        return TicketInspectionResource::collection($ticket_inspections)->additional([
+            'message' => 'success'
+        ]);
     }
 
     public function store(Request $request)

@@ -40,5 +40,8 @@ class TicketInspectionRepository implements BaseRepository
         $record->delete();
         return $record;  
     }
-    
+    public function queryByTicketInspector($ticket_inspector)
+    {
+        return $this->model::where('ticket_inspector_id', $ticket_inspector->id);
+    }
 }

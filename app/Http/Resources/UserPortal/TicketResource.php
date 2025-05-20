@@ -20,6 +20,7 @@ class TicketResource extends JsonResource
             'type' => $this->acsrType,
             'direction' => $this->acsrDirection,
             'created_at' => Carbon::parse($this->created_at)->format('d-m-Y H:i:s'),
+            'icon' => $this->acsrType['icon'],
         ];
     }
 }
