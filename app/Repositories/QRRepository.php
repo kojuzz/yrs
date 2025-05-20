@@ -72,27 +72,4 @@ class QRRepository implements BaseRepository
         ]);
         return $qr;
     }
-    public function verify ($otp_token, $code)
-    {
-        $otp = $this->model::where('token', $otp_token)->first();
-        if(!$otp) {
-            throw new Exception('The given data is invalid');
-        }
-        if($otp->expired_at < date('Y-m-d H:i:s')) {
-            throw new Exception('the OTP is experied');
-        }
-        if($otp->code != $code) {
-            throw new Exception('The OTP is wrong');
-        }
-        $this->delete($otp->id);
-    }
-    private function otpCode ()
-    {
-        if(config('app.env') == 'production') {
-            $code = str_pad(rand(0, 999999), 6, '0', STR_PAD_LEFT);
-        } else {
-            $code = '123123';
-        }
-        return $code;
-    }
 }
