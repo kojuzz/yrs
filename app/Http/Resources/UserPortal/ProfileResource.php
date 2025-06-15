@@ -17,7 +17,7 @@ class ProfileResource extends JsonResource
         return [
             'name' => $this->name,
             'email' => $this->email,
-            'wallet_balence' => number_format($this->wallet->balance). ' MMK',
+            'wallet_balence' => number_format($this->wallet->amount). ' MMK',
         ];
     }
 }
