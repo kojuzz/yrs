@@ -67,6 +67,6 @@ class StationRepository implements BaseRepository
     }
     public function queryBySlug($slug)
     {
-        return $this->model::where('slug', $slug);
+        return $this->model::where('slug', $slug)->first();
     }
 }
