@@ -53,7 +53,7 @@ class TicketController extends Controller
             DB::commit();
             return ResponseService::success([
                 'qr_token' => $qr->token,
-            ], 'success');
+            ], 'Successfully Regenerated!');
         } catch (Exception $e) {
             DB::rollBack();
             return ResponseService::fail($e->getMessage());
